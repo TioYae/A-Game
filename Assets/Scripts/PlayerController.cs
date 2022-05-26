@@ -1,16 +1,19 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerControllor : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     [SerializeField] float speed = 4.0f; // 主角速度
     [SerializeField] float jumpForce = 7.5f; // 跳跃力
+    [SerializeField] float blood = 100f; // 血量
+    private float normalSpeed; // 默认速度
     private SaveData saveData; // 主角状态
     [Space]
     public GameObject sword; // 剑的触发器
     public GameObject shield; // 盾牌的触发器
-
+    [Space]
     private Animator animator;
     private Animator animatorSword;
+    private Animator animatorShield;
     private Rigidbody2D body2d;
     private GroundSensor groundSensor;
     private bool grounded = false;
@@ -22,8 +25,10 @@ public class PlayerControllor : MonoBehaviour {
     void Start() {
         animator = GetComponent<Animator>();
         animatorSword = sword.GetComponent<Animator>();
+        animatorShield = shield.GetComponent<Animator>();
         body2d = GetComponent<Rigidbody2D>();
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
+        normalSpeed = speed;
     }
 
     // Update is called once per frame
@@ -55,14 +60,13 @@ public class PlayerControllor : MonoBehaviour {
             this.transform.localScale = new Vector3(-1, 1, 1);
         }
 
+        // 按住Shift加速
+        if (Input.GetKey(KeyCode.LeftShift)) speed = normalSpeed * 3 / 2;
+        else speed = normalSpeed;
         body2d.velocity = new Vector2(inputX * speed, body2d.velocity.y);
 
         // 设置空中垂直速度
         animator.SetFloat("AirSpeedY", body2d.velocity.y);
-
-        /*if (Input.GetMouseButtonUp(0)) {
-            Invoke(nameof(SetSwordAndShieldFalse), 0.5f);
-        }*/
 
         // 攻击，输入鼠标左键
         if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
@@ -76,26 +80,6 @@ public class PlayerControllor : MonoBehaviour {
             if (timeSinceAttack > 1.0f)
                 currentAttack = 1;
 
-            // 启用触发器
-            /*if (currentAttack == 1) {
-                sword1.gameObject.SetActive(true);
-                sword2.gameObject.SetActive(false);
-                sword3.gameObject.SetActive(false);
-                shield.gameObject.SetActive(false);
-            }
-            else if (currentAttack == 2) {
-                sword1.gameObject.SetActive(false);
-                sword2.gameObject.SetActive(true);
-                sword3.gameObject.SetActive(false);
-                shield.gameObject.SetActive(false);
-            }
-            else if (currentAttack == 3) {
-                sword1.gameObject.SetActive(false);
-                sword2.gameObject.SetActive(false);
-                sword3.gameObject.SetActive(true);
-                shield.gameObject.SetActive(false);
-            }*/
-
             // 将第n下攻击的Trigger选中
             animator.SetTrigger("Attack" + currentAttack);
             animatorSword.SetTrigger("Attack" + currentAttack);
@@ -105,19 +89,15 @@ public class PlayerControllor : MonoBehaviour {
         }
         // 防御，输入鼠标右键
         else if (Input.GetMouseButtonDown(1)) {
-            /*sword1.gameObject.SetActive(false);
-            sword2.gameObject.SetActive(false);
-            sword3.gameObject.SetActive(false);
-            shield.gameObject.SetActive(true);*/
-
             animator.SetTrigger("Block");
             animator.SetBool("IdleBlock", true);
+            animatorShield.SetTrigger("Defense");
+            animatorShield.SetBool("Defensing", true);
         }
         // 取消防御，松开鼠标右键
         else if (Input.GetMouseButtonUp(1)) {
-            //SetSwordAndShieldFalse();
-
             animator.SetBool("IdleBlock", false);
+            animatorShield.SetBool("Defensing", false);
         }
         // 跳跃
         else if (Input.GetKeyDown("space") && grounded) {
@@ -143,10 +123,18 @@ public class PlayerControllor : MonoBehaviour {
         }
     }
 
-    /*void SetSwordAndShieldFalse() {
-        sword1.gameObject.SetActive(false);
-        sword2.gameObject.SetActive(false);
-        sword3.gameObject.SetActive(false);
-        shield.gameObject.SetActive(false);
-    }*/
+    public void Hurt(float hurtBlood) {
+        if (hurtBlood > blood) {
+            blood = 0;
+            Dead();
+        }
+        else {
+            blood -= hurtBlood;
+        }
+    }
+
+    private void Dead() {
+        // todo
+        Debug.Log(this.name + "Dead");
+    }
 }
