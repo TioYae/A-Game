@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a70702763874754698ff61bdb8a8bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 7.5
+  speed: 2
+  jumpForce: 5
   blood: 0
   sword: {fileID: 2449285676005464647}
   shield: {fileID: 2449285674796048241}

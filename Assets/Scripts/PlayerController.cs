@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour {
             // 将第n下攻击的Trigger选中
             animator.SetTrigger("Attack" + currentAttack);
             animatorSword.SetTrigger("Attack" + currentAttack);
+            animatorShield.SetBool("Defensing", false);
 
             // 重置攻击间隔
             timeSinceAttack = 0.0f;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour {
         // 跳跃
         else if (Input.GetKeyDown("space") && grounded) {
             animator.SetTrigger("Jump");
+            animatorShield.SetBool("Defensing", false);
             grounded = false;
             animator.SetBool("Grounded", grounded);
             body2d.velocity = new Vector2(body2d.velocity.x, jumpForce);
