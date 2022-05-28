@@ -18,11 +18,11 @@ public class GroundSensor : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        ColCount++;
+        if (other.tag.Equals("Ground")) ColCount++;
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        ColCount--;
+        if (other.tag.Equals("Ground")) ColCount--;
     }
 
     void Update() {

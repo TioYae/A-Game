@@ -11,45 +11,45 @@ public class Enemy_Sword : Enemy {
     public float moveDealyTime; // 巡逻延迟
     public float attackDealyTime; // 攻击延迟
     [Space]
-    public GameObject leftPosition; // 巡逻区域左端点
-    public GameObject rightPosition; // 巡逻区域右端点
-    private float left_x; // 巡逻区域左端点值
-    private float right_x; // 巡逻区域右端点值
     private float destination; // 巡逻区域内一点
     [Space]
-    private Rigidbody2D rb;
-    private Rigidbody2D wallRb;
-    public Animator anim;
+    public GameObject sword; // 剑
+    private Animator animSword;
 
     // Use this for initialization
-    void Start() {
-        left_x = leftPosition.transform.position.x;
-        right_x = rightPosition.transform.position.x;
-        rb = this.transform.GetComponent<Rigidbody2D>();
-        wallRb = this.transform.GetChild(0).gameObject.GetComponent<Rigidbody2D>();
-        anim = this.GetComponent<Animator>();
+    protected override void Start() {
+        base.Start();
+        animSword = sword.GetComponent<Animator>();
         moveDealyTime = Random.Range(10f, 20f); // 10s到20s延迟触发一次移动
         attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
+
+        SetATK(); // 为剑赋予攻击力
     }
 
     // Update is called once per frame
     void Update() {
         // 准备好攻击，等待攻击延迟（随机性）
         if (readyToAttack) {
+            // 延迟时间到了
             if (attackDealyTime <= 0) {
                 attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
                 anim.SetTrigger("attack");
+                anim.SetBool("attacking", true);
+                animSword.SetTrigger("attack");
             }
+            // 延迟时间没到
             else attackDealyTime -= Time.deltaTime;
         }
         else {
             // 在不追踪玩家的时候等待延迟时间触发移动
             if (!follow) {
+                // 延迟时间到了
                 if (moveDealyTime <= 0) {
                     if (!moving) destination = Random.Range(left_x, right_x); // 设置目的地
                     moving = true;
                     MoveToDestination();
                 }
+                // 延迟时间没到
                 else {
                     moveDealyTime -= Time.deltaTime;
                 }
@@ -65,16 +65,30 @@ public class Enemy_Sword : Enemy {
         else if (follow) {
             follow = false; // 不再追踪
             moving = false; // 不再移动
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            wallRb.velocity = new Vector2(0, wallRb.velocity.y);
-            if (transform.position.x > right_x || transform.position.x < left_x) { // 如果离开了巡逻区域，返回
+            // 移动速度置零
+            SetVelocity(0);
+            // 如果离开了巡逻区域，返回
+            if (transform.position.x > right_x || transform.position.x < left_x) {
                 moveDealyTime = 0;
                 destination = Random.Range(left_x, right_x); // 设置目的地
                 MoveToDestination();
             }
+            // 没离开，原地待命
             else
                 anim.SetBool("running", false);
         }
+    }
+
+    // 赋予攻击力，重写父类方法
+    public override void SetATK() {
+        base.SetATK();
+        Sword sw = sword.GetComponent<Sword>();
+        sw.SetAttack(atk);
+    }
+
+    // 攻击完了
+    public void AttackIsOver() {
+        anim.SetBool("attacking", false);
     }
 
     // 移动到目的地
@@ -91,14 +105,12 @@ public class Enemy_Sword : Enemy {
         transform.localScale = new Vector3(tag * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         // 向着目的地前进
         if (Mathf.Abs(transform.position.x - destination) > 0.2f) { // 0.2的误差
-            rb.velocity = new Vector2(tag * speed, rb.velocity.y);
-            wallRb.velocity = new Vector2(tag * speed, wallRb.velocity.y);
+            SetVelocity(tag * speed);
         }
         // 到达目的地，取消正在移动状态，设置延迟
         else {
             moving = false;
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            wallRb.velocity = new Vector2(0, wallRb.velocity.y);
+            SetVelocity(0);
             moveDealyTime = Random.Range(10f, 20f); // 10s到20s延迟触发一次移动
             anim.SetBool("running", false);
         }
@@ -116,7 +128,6 @@ public class Enemy_Sword : Enemy {
 
         if (leave > maxLeave) {
             found = false; // 视而不见
-            //follow = false; // 取消追踪
             moving = true; // 正在移动
             destination = Random.Range(left_x, right_x); // 设置目的地
             MoveToDestination();
@@ -140,9 +151,7 @@ public class Enemy_Sword : Enemy {
             else tag = -1;
             this.transform.localScale = new Vector3(tag * Mathf.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
 
-            // 带着墙体移动
-            rb.velocity = new Vector2(tag * speed, rb.velocity.y);
-            wallRb.velocity = new Vector2(tag * speed, wallRb.velocity.y);
+            SetVelocity(tag * speed);
         }
         // 超出了攻击范围，追踪
         else if (Mathf.Abs(player.transform.position.x - this.transform.position.x) > maxDistance) {
@@ -155,36 +164,24 @@ public class Enemy_Sword : Enemy {
         else if (Mathf.Abs(player.transform.position.x - this.transform.position.x) <= maxDistance) {
             follow = false;
             readyToAttack = true;
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            wallRb.velocity = new Vector2(0, wallRb.velocity.y);
+            SetVelocity(0);
             anim.SetBool("running", false);
         }
     }
 
-    // 受伤，重写父类方法
+    // 受伤反击
+    public void CounterAttack() {
+        if (Random.Range(0, 2) == 0) {
+            readyToAttack = true;
+            attackDealyTime = 0;
+        }
+    }
+
     public override void Hurt(float hurtBlood) {
         if (blood == 0) return;
 
-        anim.SetTrigger("hurt");
-        if (hurtBlood > blood) {
-            rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
-            rb.Sleep();
-            blood = 0;
-            Death();
-        }
-        else {
-            blood -= hurtBlood;
-        }
-    }
-
-    // 死亡
-    void Death() {
-        anim.SetBool("death", true);
-        Debug.Log(this.name + " Death");
-    }
-
-    // 摧毁该敌人
-    void Distory() {
-        Destroy(this.gameObject);
+        // 死亡时取消剑的触发器动作
+        if (hurtBlood >= blood) animSword.SetBool("death", true);
+        base.Hurt(hurtBlood);
     }
 }
