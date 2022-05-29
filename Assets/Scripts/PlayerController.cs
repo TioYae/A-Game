@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     [SerializeField] float speed = 2.0f; // 主角速度
     [SerializeField] float jumpForce = 5f; // 跳跃力
     [SerializeField] float atk = 10f; // 基础攻击力
     [SerializeField] float blood = 100f; // 血量
+    private float bloodMax; // 最大血量
     private float normalSpeed; // 默认速度
     [Space]
     public GameObject sword; // 剑的触发器
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb;
     private GroundSensor groundSensor; // 地面传感器
     private Sword sw; // 剑的类
+    public Image bloodImage; // 血条
     [Space]
     private bool grounded = false; // 是否在地面
     private int currentAttack = 0;
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        bloodMax = blood;
         animator = GetComponent<Animator>();
         animatorSword = sword.GetComponent<Animator>();
         animatorShield = shield.GetComponent<Animator>();
@@ -47,6 +51,9 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        // 更新血量
+        bloodImage.transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
+
         // 持续更新攻击间隔时间
         timeSinceAttack += Time.deltaTime;
 
@@ -74,10 +81,10 @@ public class PlayerController : MonoBehaviour {
 
         // 设置角色朝向
         if (inputX > 0) {
-            this.transform.localScale = new Vector3(1, 1, 1);
+            this.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         else if (inputX < 0) {
-            this.transform.localScale = new Vector3(-1, 1, 1);
+            this.transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
         // 按住Shift加速
@@ -137,9 +144,11 @@ public class PlayerController : MonoBehaviour {
         }
         // 防御，输入鼠标右键
         else if (Input.GetMouseButtonDown(1)) {
+            attacking = false;
             defining = true;
             animator.SetTrigger("Block");
             animator.SetBool("IdleBlock", true);
+            animatorSword.SetTrigger("cancel");
             animatorShield.SetTrigger("Defense");
             animatorShield.SetBool("Defensing", true);
         }
@@ -151,7 +160,9 @@ public class PlayerController : MonoBehaviour {
         }
         // 跳跃
         else if (Input.GetKeyDown("space") && grounded) {
+            attacking = false;
             animator.SetTrigger("Jump");
+            animatorSword.SetTrigger("cancel");
             animatorShield.SetBool("Defensing", false);
             grounded = false;
             animator.SetBool("Grounded", grounded);

@@ -27,9 +27,16 @@ public class Enemy_Sword : Enemy {
     }
 
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
+        base.Update();
         // 准备好攻击，等待攻击延迟（随机性）
         if (readyToAttack) {
+            // 设置朝向
+            int tag;
+            if (player.transform.position.x < transform.position.x) tag = -1;
+            else tag = 1;
+            transform.localScale = new Vector3(tag * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+
             // 延迟时间到了
             if (attackDealyTime <= 0) {
                 attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟

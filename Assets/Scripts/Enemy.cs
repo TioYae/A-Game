@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour {
@@ -9,9 +10,11 @@ public class Enemy : MonoBehaviour {
     public float atk; // 攻击力
     public float minDistance = 5f; // 攻击范围最小值
     public float maxDistance = 10f; // 攻击范围最大值
+    protected float bloodMax; // 最大血量
     protected float finalDistance; // 锁定玩家时与玩家的间隔
     protected bool found = false; // 是否找到玩家
     protected bool follow = false; // 是否跟随玩家
+    public string enemyName; // 怪物名字
     [Space]
     public GameObject leftPosition; // 巡逻区域左端点
     public GameObject rightPosition; // 巡逻区域右端点
@@ -19,6 +22,7 @@ public class Enemy : MonoBehaviour {
     protected float right_x; // 巡逻区域右端点值
     [Space]
     public GameObject player;
+    public GameObject enemyStatus;
     protected Rigidbody2D rb;
     protected Rigidbody2D wallRb;
     protected Animator anim;
@@ -28,12 +32,20 @@ public class Enemy : MonoBehaviour {
     protected AudioSource audioSource;
 
     protected virtual void Start() {
+        bloodMax = blood;
         left_x = leftPosition.transform.position.x;
         right_x = rightPosition.transform.position.x;
         rb = this.transform.GetComponent<Rigidbody2D>();
         wallRb = this.transform.GetChild(0).gameObject.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
         audioSource = this.GetComponent<AudioSource>();
+        // 设置名字
+        enemyStatus.transform.GetChild(0).GetComponent<Text>().text = enemyName;
+    }
+
+    protected virtual void Update() {
+        // 更新血量
+        enemyStatus.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
     }
 
     // 赋予攻击力的空方法，待子类重写
@@ -87,6 +99,7 @@ public class Enemy : MonoBehaviour {
 
     // 死亡
     void Death() {
+        Destroy(enemyStatus);
         Destroy(this.gameObject);
     }
 }
