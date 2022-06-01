@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Shield
   - Enemy
+  - Bird
+  - OneWayPlatform
   layers:
   - Default
   - TransparentFX
@@ -14,14 +16,14 @@ TagManager:
   - 
   - Water
   - UI
+  - Environment
+  - 
   - Ground
+  - Enemy
   - 
+  - Player
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - OneWayPlatform
   - 
   - 
   - 
@@ -44,6 +46,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 3681994411
+    locked: 0
+  - name: Decorate
+    uniqueID: 3799794867
+    locked: 0
   - name: Ground
     uniqueID: 2612875243
+    locked: 0
+  - name: Character
+    uniqueID: 4029315731
     locked: 0
