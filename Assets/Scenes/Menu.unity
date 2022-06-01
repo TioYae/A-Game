@@ -207,8 +207,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2093234625}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: startGame
+        m_TargetAssemblyTypeName: Test_Menu, Assembly-CSharp
+        m_MethodName: Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -655,7 +655,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2093234625}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: loadGame
         m_Mode: 1
@@ -913,8 +913,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2093234625}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: exitGame
+        m_TargetAssemblyTypeName: Test_Menu, Assembly-CSharp
+        m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1261,6 +1261,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2093234618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61e616e1287f504588d6f0296b4dad8, type: 3}
+  m_Script: {fileID: 11500000, guid: d82143963ac6e1d4cb81284e39c1dd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
