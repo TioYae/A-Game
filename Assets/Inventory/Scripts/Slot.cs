@@ -29,7 +29,7 @@ public class Slot : MonoBehaviour
     {
         InventoryManager.UpdateItemInfo(slotInfo);//背包界面显示描述
 
-        SecMenu.GetComponent<SecMenu>().item = slotItem;//选中当前格位，等待按丢弃或使用
+        SecMenu.GetComponent<SecMenu>().selectedItem = slotItem;//选中当前格位，等待按丢弃或使用
 
        // Debug.Log(SecMenu.GetComponent<SecMenu>().item.itemHeld);
     }
@@ -38,14 +38,11 @@ public class Slot : MonoBehaviour
     //物品栏中物品被点击，直接使用
     public void frontOnClicked()
         {
-        useItem();
-        InventoryManager.RefreshItem();
+        SecMenu.GetComponent<SecMenu>().useItem(slotItem);
+       
     }
 
-    public void useItem()
-    {
-        slotItem.itemHeld--;
-    }
+
 
 
 

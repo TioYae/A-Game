@@ -4,21 +4,46 @@ using UnityEngine;
 
 public class SecMenu : MonoBehaviour
 {
-    public Item item;//记录当前选中的物品
+    public Item selectedItem;//记录当前选中的物品
 
-    public void useItem()
+
+
+    public void useBtnClicked()
     {
-
-        item.itemHeld--;
-        InventoryManager.RefreshItem();
+        useItem(selectedItem);
     }
 
-    public void throwItem()
+    public void throwBtnClicked()
     {
 
-        item.itemHeld--;
-        InventoryManager.RefreshItem();
+        throwItem(selectedItem);
     }
+
+    public void useItem(Item thisItem)
+    {
+
+        if(thisItem != null)
+        {
+        thisItem.itemHeld--;
+        InventoryManager.RefreshItem();
+        }
+    }
+
+    public void throwItem(Item thisItem)
+    {
+        if (thisItem != null)
+        {
+            thisItem.itemHeld--;
+            InventoryManager.RefreshItem();
+        }
+    }
+
+
+
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +54,6 @@ public class SecMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+      
     }
 }
