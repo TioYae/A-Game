@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Sword : Enemy {
-    public GameObject sword; // 剑
-    private Animator animSword;
+public class Enemy_Coin : Enemy {
+    public GameObject enemy;
 
-    // Use this for initialization
+    // Start is called before the first frame update
     protected override void Start() {
         base.Start();
-        animSword = sword.GetComponent<Animator>();
         moveDealyTime = Random.Range(10f, 20f); // 10s到20s延迟触发一次移动
-        attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
-
-        SetATK(); // 为剑赋予攻击力
+        attackDealyTime = Random.Range(5f, 10f); // 设置5s到10s的攻击延迟
     }
 
     // Update is called once per frame
@@ -31,8 +27,10 @@ public class Enemy_Sword : Enemy {
             if (attackDealyTime <= 0) {
                 attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
                 anim.SetTrigger("attack");
-                anim.SetBool("attacking", true);
-                animSword.SetTrigger("attack");
+                //anim.SetBool("attacking", true);
+                // todo 
+                // 寻找战斗状态敌人中的血量最低的，进行回复
+                SetATK();
             }
             // 延迟时间没到
             else attackDealyTime -= Time.deltaTime;
@@ -76,18 +74,18 @@ public class Enemy_Sword : Enemy {
         }
     }
 
-    // 赋予攻击力，重写父类方法
+    // 为队友回血，重写父类方法
     public override void SetATK() {
-        base.SetATK();
-        Sword sw = sword.GetComponent<Sword>();
-        sw.SetAttack(atk);
-    }
-
-    public override void Hurt(float hurtBlood) {
-        if (blood == 0) return;
-
-        // 死亡时取消剑的触发器动作
-        if (hurtBlood >= blood) animSword.SetBool("death", true);
-        base.Hurt(hurtBlood);
+        int n = enemy.transform.childCount;
+        float min = Mathf.Infinity;
+        Enemy e = this.GetComponent<Enemy>();
+        for(int i = 0; i < n; i++) {
+            float t = enemy.transform.GetChild(i).GetComponent<Enemy>().GetBlood();
+            if (t != -1 && t < min) {
+                e = enemy.transform.GetChild(i).GetComponent<Enemy>();
+                min = t;
+            }
+        }
+        e.BloodUp(atk);
     }
 }

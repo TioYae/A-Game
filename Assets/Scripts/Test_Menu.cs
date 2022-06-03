@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,5 +28,19 @@ public class Test_Menu : MonoBehaviour {
 
     public void Exit() {
         Application.Quit();
+    }
+
+    public void Load() {
+        var path = Path.Combine(Application.dataPath, "savedata");
+        DirectoryInfo dir = new DirectoryInfo(path);
+        if (!dir.Exists) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); 
+
+        path = Path.Combine(path, "data.json");
+        FileInfo fileInfo = new FileInfo(path);
+        if (!fileInfo.Exists) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); 
+
+        var str = File.ReadAllText(path);
+        SaveData saveData = JsonUtility.FromJson<SaveData>(str);
+        SceneManager.LoadScene(saveData.GetScene());
     }
 }

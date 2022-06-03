@@ -1,14 +1,26 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System;
 
 public class PlayerController : MonoBehaviour {
-    [SerializeField] float speed = 4.0f; // 主角速度
+    [SerializeField] float speed = 3.0f; // 当前速度
     [SerializeField] float jumpForce = 5f; // 跳跃力
     [SerializeField] float atk = 10f; // 基础攻击力
     [SerializeField] float blood = 100f; // 血量
+    [SerializeField] int exp; // 经验值
+    [SerializeField] int level; // 当前等级
+    [SerializeField] List<float> atkLevel; // 每一级的攻击力
+    [SerializeField] List<float> bloodLevel; // 每一级的血量上限
+    [SerializeField] List<int> expLevel; // 升级需要的经验值
     private float bloodMax; // 最大血量
     private float normalSpeed; // 默认速度
+    private float speedRemember; // 记录初始速度
     [Space]
     public GameObject sword; // 剑的触发器
     public GameObject shield; // 盾牌的触发器
@@ -28,6 +40,13 @@ public class PlayerController : MonoBehaviour {
     private float delayToIdle = 0.0f;
     private bool attacking = false; // 是否正在攻击
     private bool defining = false; // 是否正在防御
+    private bool fire = false; // 是否烧伤
+    private bool water = false; // 是否迟滞
+    private float fireHurt; // 烧伤伤害
+    public float fireTime; // 烧伤持续时间
+    public float waterTime; // 迟滞持续时间
+    private float fireStatusTime; // 已持续烧伤时间
+    private float waterStatusTime; // 已持续迟滞时间
     [Space]
     public AudioClip attack1;
     public AudioClip attack2;
@@ -44,6 +63,9 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        Load();
+        atk = atkLevel[level - 1];
+        blood = bloodLevel[level - 1];
         bloodMax = blood;
         animator = GetComponent<Animator>();
         animatorSword = sword.GetComponent<Animator>();
@@ -51,12 +73,37 @@ public class PlayerController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
+        speedRemember = speed;
         audioSource = this.GetComponent<AudioSource>();
         sw = sword.GetComponent<Sword>();
     }
 
     // Update is called once per frame
     void Update() {
+        // 烧伤
+        if (fire) {
+            blood -= fireHurt;
+            fireStatusTime += Time.deltaTime;
+            // 持续时间已到，取消烧伤状态
+            if (fireStatusTime >= fireTime) {
+                fire = false;
+                fireStatusTime = 0;
+            }
+        }
+
+        // 迟滞
+        if (water) {
+            // 默认速度设为初始速度的1/2，速度更新在判断是否按下左Shift处，此处无需更新
+            normalSpeed = speedRemember / 2;
+            waterStatusTime += Time.deltaTime;
+            // 持续时间已到，取消迟滞状态
+            if (waterStatusTime >= waterTime) {
+                water = false;
+                waterStatusTime = 0;
+                normalSpeed = speedRemember;
+            }
+        }
+
         // 更新血量
         bloodImage.transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
 
@@ -155,8 +202,8 @@ public class PlayerController : MonoBehaviour {
             animator.SetTrigger("Block");
             animator.SetBool("IdleBlock", true);
             animatorSword.SetTrigger("cancel");
-            animatorShield.SetTrigger("Defense");
             animatorShield.SetBool("Defensing", true);
+            animatorShield.SetTrigger("Defense");
         }
         // 取消防御，松开鼠标右键
         else if (Input.GetMouseButtonUp(1)) {
@@ -176,9 +223,7 @@ public class PlayerController : MonoBehaviour {
             groundSensor.Disable(0.2f);
         }
         //脚下是可踩下落物，暂命名为“雷鸟”
-        else if (Input.GetKeyDown("space") && isNearBird && reBoundCount > 0 
-            && transform.position.y>theBird.transform.position.y)
-        {
+        else if (Input.GetKeyDown("space") && isNearBird && reBoundCount > 0 && transform.position.y > theBird.transform.position.y) {
             reBoundCount--;
             //计算角度
             playReBoundDirect = theBird.GetComponent<Lightning_Bird>().playerReboundDir;
@@ -212,6 +257,22 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // 增加经验值
+    public void ExpUp(int exp) {
+        this.exp += exp;
+        if (level < expLevel.Count) {
+            if (this.exp >= expLevel[level]) LevelUp();
+        }
+    }
+
+    // 角色升级
+    private void LevelUp() {
+        level++;
+        atk = atkLevel[level - 1];
+        blood = bloodLevel[level - 1];
+        bloodMax = blood;
+    }
+
     // 攻击完了
     public void AttackFinished() {
         attacking = false;
@@ -232,11 +293,22 @@ public class PlayerController : MonoBehaviour {
         }
         else {
             blood -= hurtBlood;
-            if (Random.Range(0, 2) == 0)
+            if (UnityEngine.Random.Range(0, 2) == 0)
                 audioSource.clip = hurt1;
             else
                 audioSource.clip = hurt2;
             audioSource.Play();
+        }
+    }
+
+    // 设置异常状态
+    public void SetStatus(string status, float atk) {
+        if (status.Equals("Fire")) {
+            fireHurt = atk;
+            fire = true;
+        }
+        else if (status.Equals("Water")) {
+            water = true;
         }
     }
 
@@ -249,19 +321,53 @@ public class PlayerController : MonoBehaviour {
     }
 
     //Todo:检查问题
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<Lightning_Bird>())
-        {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.GetComponent<Lightning_Bird>()) {
             theBird = collision.gameObject;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<Lightning_Bird>())
-        {
+    private void OnTriggerExit2D(Collider2D collision) {
+        if (collision.gameObject.GetComponent<Lightning_Bird>()) {
             theBird = null;
         }
+    }
+
+    // 存档
+    public void Save() {
+        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1);
+
+        var path = Path.Combine(Application.dataPath, "Savedata");
+        DirectoryInfo dir = new DirectoryInfo(path);
+        if (!dir.Exists) dir.Create();
+
+        path = Path.Combine(path, "data.json");
+        FileInfo fileInfo = new FileInfo(path);
+        if (fileInfo.Exists) fileInfo.Delete();
+
+        StreamWriter writer = fileInfo.CreateText();
+        writer.Write(JsonUtility.ToJson(saveData));
+        writer.Flush();
+        writer.Dispose();
+        writer.Close();
+
+        if (File.Exists(path)) Debug.Log("save: " + true);
+        else Debug.Log("save: " + false);
+    }
+
+    // 读档
+    void Load() {
+        var path = Path.Combine(Application.dataPath, "savedata");
+        DirectoryInfo dir = new DirectoryInfo(path);
+        if (!dir.Exists) level = 1;
+
+        path = Path.Combine(path, "data.json");
+        FileInfo fileInfo = new FileInfo(path);
+        if (!fileInfo.Exists) level = 1;
+
+        var str = File.ReadAllText(path);
+        SaveData saveData = JsonUtility.FromJson<SaveData>(str);
+        level = saveData.GetLevel();
+        exp = saveData.GetExp();
     }
 }

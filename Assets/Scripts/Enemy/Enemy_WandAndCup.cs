@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Sword : Enemy {
-    public GameObject sword; // 剑
-    private Animator animSword;
+public class Enemy_WandAndCup : Enemy {
+    public GameObject prefab;
 
-    // Use this for initialization
+    // Start is called before the first frame update
     protected override void Start() {
         base.Start();
-        animSword = sword.GetComponent<Animator>();
         moveDealyTime = Random.Range(10f, 20f); // 10s到20s延迟触发一次移动
         attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
-
-        SetATK(); // 为剑赋予攻击力
     }
 
     // Update is called once per frame
@@ -31,8 +27,10 @@ public class Enemy_Sword : Enemy {
             if (attackDealyTime <= 0) {
                 attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
                 anim.SetTrigger("attack");
-                anim.SetBool("attacking", true);
-                animSword.SetTrigger("attack");
+                //anim.SetBool("attacking", true);
+                // todo 
+                // 根据prefab创建新子弹
+                SetATK();
             }
             // 延迟时间没到
             else attackDealyTime -= Time.deltaTime;
@@ -79,15 +77,20 @@ public class Enemy_Sword : Enemy {
     // 赋予攻击力，重写父类方法
     public override void SetATK() {
         base.SetATK();
-        Sword sw = sword.GetComponent<Sword>();
-        sw.SetAttack(atk);
-    }
+        GameObject obj = Instantiate(prefab);
+        obj.SetActive(true);
+        obj.GetComponent<Bullet>().SetAttack(atk);
+        obj.transform.parent = this.transform;
+        obj.transform.position = this.transform.position;
+        Rigidbody2D bulletRb = obj.GetComponent<Rigidbody2D>();
+        // 调整方向
+        if (transform.localScale.x < 0) {
+            obj.transform.localScale = new Vector3(-obj.transform.localScale.x, obj.transform.localScale.y, obj.transform.localScale.z);
+            bulletRb.velocity = new Vector2(-4, 0);
+        }
+        else {
+            bulletRb.velocity = new Vector2(4, 0);
+        }
 
-    public override void Hurt(float hurtBlood) {
-        if (blood == 0) return;
-
-        // 死亡时取消剑的触发器动作
-        if (hurtBlood >= blood) animSword.SetBool("death", true);
-        base.Hurt(hurtBlood);
     }
 }
