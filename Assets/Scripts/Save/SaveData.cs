@@ -12,7 +12,7 @@ public class SaveData {
     //[SerializeField] private List<float> score; // 每关的分数
 
     public SaveData(int exp, int level, int scene) {
-        this.exp = exp;
+        this.exp = exp; 
         this.level = level;
         this.scene = scene;
     }

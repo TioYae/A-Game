@@ -368,6 +368,6 @@ public class PlayerController : MonoBehaviour {
         var str = File.ReadAllText(path);
         SaveData saveData = JsonUtility.FromJson<SaveData>(str);
         level = saveData.GetLevel();
-        exp = saveData.GetExp();
+        exp = saveData.GetExp(); 
     }
 }

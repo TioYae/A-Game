@@ -19,7 +19,7 @@ public class Serialization<T> {
 // Dictionary<TKey, TValue>
 [Serializable]
 public class Serialization<TKey, TValue> : ISerializationCallbackReceiver {
-    [SerializeField]
+    [SerializeField] 
     List<TKey> keys;
     [SerializeField]
     List<TValue> values;

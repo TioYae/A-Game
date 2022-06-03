@@ -35,7 +35,7 @@ public class Test_Menu : MonoBehaviour {
         DirectoryInfo dir = new DirectoryInfo(path);
         if (!dir.Exists) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); 
 
-        path = Path.Combine(path, "data.json");
+        path = Path.Combine(path, "data.json"); 
         FileInfo fileInfo = new FileInfo(path);
         if (!fileInfo.Exists) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); 
 

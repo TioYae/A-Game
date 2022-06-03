@@ -18,7 +18,7 @@ public class Test_NextSence : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag.Equals("Player")) {
             collision.gameObject.GetComponent<PlayerController>().Save();
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
