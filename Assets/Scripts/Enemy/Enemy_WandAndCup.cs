@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_WandAndCup : Enemy {
-    public GameObject prefab;
+    public GameObject bullet;
 
     // Start is called before the first frame update
     protected override void Start() {
@@ -41,7 +41,6 @@ public class Enemy_WandAndCup : Enemy {
                 // 延迟时间到了
                 if (moveDealyTime <= 0) {
                     if (!moving) destination = Random.Range(left_x, right_x); // 设置目的地
-                    moving = true;
                     MoveToDestination();
                 }
                 // 延迟时间没到
@@ -77,7 +76,7 @@ public class Enemy_WandAndCup : Enemy {
     // 赋予攻击力，重写父类方法
     public override void SetATK() {
         base.SetATK();
-        GameObject obj = Instantiate(prefab);
+        GameObject obj = Instantiate(bullet);
         obj.SetActive(true);
         obj.GetComponent<Bullet>().SetAttack(atk);
         obj.transform.parent = this.transform;

@@ -82,6 +82,7 @@ public class Enemy : MonoBehaviour {
             // 切换动画
             anim.SetTrigger("run");
             anim.SetBool("running", true);
+            moving = true;
         }
         // 设置朝向
         int tag;
@@ -113,7 +114,6 @@ public class Enemy : MonoBehaviour {
 
         if (leave > maxLeave) {
             found = false; // 视而不见
-            moving = true; // 正在移动
             destination = Random.Range(left_x, right_x); // 设置目的地
             MoveToDestination();
         }

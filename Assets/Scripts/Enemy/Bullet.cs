@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
+    public GameObject popupDamage;
     private float atk;
 
     public void SetAttack(float atk) {
@@ -20,6 +21,14 @@ public class Bullet : MonoBehaviour {
                 PlayerController player = collision.gameObject.GetComponent<PlayerController>();
                 player.tag = "Player";
                 player.Hurt(atk);
+                // 伤害数字
+                GameObject obj = Instantiate(popupDamage, collision.transform.position, Quaternion.identity);
+                obj.GetComponent<DamagePopup>().value = atk;
+            }
+            else {
+                // 伤害数字
+                GameObject obj = Instantiate(popupDamage, collision.transform.position, Quaternion.identity);
+                obj.GetComponent<DamagePopup>().value = 0;
             }
             Destroy(this.gameObject);
         }
@@ -28,6 +37,10 @@ public class Bullet : MonoBehaviour {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.tag = "Player";
             player.Hurt(atk);
+            // 伤害数字
+            GameObject obj = Instantiate(popupDamage, collision.transform.position, Quaternion.identity);
+            obj.GetComponent<DamagePopup>().value = atk;
+
             // 法术攻击有1/2的概率使玩家进入异常状态
             if (Random.Range(0, 2) == 0) {
                 // 如果是火焰弹，玩家烧伤

@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour {
     private float speedRemember; // 记录初始速度
     [Space]
     public GameObject sword; // 剑的触发器
-    public GameObject shield; // 盾牌的触发器
+    public GameObject popupDamage; // 伤害数字
+    //public GameObject shield; // 盾牌的触发器
     //public GameObject deathMenu; // 死亡菜单
     [Space]
     private Animator animator;
@@ -299,21 +300,36 @@ public class PlayerController : MonoBehaviour {
     // 设置异常状态
     public void SetStatus(string status, float atk) {
         if (status.Equals("Fire")) {
-            fireHurt = atk;
-            fire = true;
-            fireImage.SetActive(true);
-            // 每秒扣除一定血量
-            Invoke(nameof(HurtByFire), 1f);
+            // 重复触发刷新持续时间
+            if (fire) {
+                fireStatusTime = 0;
+            }
+            else {
+                fireHurt = atk;
+                fire = true;
+                fireImage.SetActive(true);
+                // 每秒扣除一定血量
+                Invoke(nameof(HurtByFire), 1f);
+            }
         }
         else if (status.Equals("Water")) {
-            water = true;
-            waterImage.SetActive(true);
+            // 重复触发刷新持续时间
+            if (water) {
+                waterStatusTime = 0;
+            }
+            else {
+                water = true;
+                waterImage.SetActive(true);
+            }
         }
     }
 
     // 烧伤
     void HurtByFire() {
         blood -= fireHurt;
+        // 伤害数字
+        GameObject obj = Instantiate(popupDamage, this.transform.position, Quaternion.identity);
+        obj.GetComponent<DamagePopup>().value = atk;
         // 持续时间已到，取消烧伤状态
         if (fireStatusTime >= fireTime) {
             fire = false;
@@ -327,6 +343,8 @@ public class PlayerController : MonoBehaviour {
 
     // 死亡
     public void Death() {
+        rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
+        rb.Sleep();
         // 暂停游戏
         Time.timeScale = 0f;
         // 打开死亡菜单

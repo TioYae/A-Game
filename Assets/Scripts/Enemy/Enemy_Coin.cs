@@ -41,7 +41,6 @@ public class Enemy_Coin : Enemy {
                 // 延迟时间到了
                 if (moveDealyTime <= 0) {
                     if (!moving) destination = Random.Range(left_x, right_x); // 设置目的地
-                    moving = true;
                     MoveToDestination();
                 }
                 // 延迟时间没到
