@@ -54,7 +54,7 @@ public class DamagePopup : MonoBehaviour {
         else
             labelFont.normal.textColor = new Color(255, 255, 255);
         //设置字体大小
-        labelFont.fontSize = 20;
+        labelFont.fontSize = 35;
         //保证目标在摄像机前方  
         if (mScreen.z > 0) {
             //内部使用GUI坐标进行绘制  

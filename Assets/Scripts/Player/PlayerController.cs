@@ -279,6 +279,7 @@ public class PlayerController : MonoBehaviour {
         if (blood == 0) return;
 
         animator.SetTrigger("Hurt");
+        animator.SetBool("Hurting", true);
         animatorSword.SetTrigger("hurt");
         if (hurtBlood >= blood) {
             blood = 0;
@@ -297,15 +298,20 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // 结束受伤动画
+    public void SetHurtingFalse() {
+        animator.SetBool("Hurting", false);
+    }
+
     // 设置异常状态
-    public void SetStatus(string status, float atk) {
+    public void SetStatus(string status, float hurt) {
         if (status.Equals("Fire")) {
             // 重复触发刷新持续时间
             if (fire) {
                 fireStatusTime = 0;
             }
             else {
-                fireHurt = atk;
+                fireHurt = hurt;
                 fire = true;
                 fireImage.SetActive(true);
                 // 每秒扣除一定血量
@@ -327,9 +333,11 @@ public class PlayerController : MonoBehaviour {
     // 烧伤
     void HurtByFire() {
         blood -= fireHurt;
+        // 玩家伤害数字位置补偿
+        Vector2 position = new Vector2(this.transform.position.x, this.transform.position.y + 0.5f);
         // 伤害数字
-        GameObject obj = Instantiate(popupDamage, this.transform.position, Quaternion.identity);
-        obj.GetComponent<DamagePopup>().value = atk;
+        GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
+        obj.GetComponent<DamagePopup>().value = fireHurt;
         // 持续时间已到，取消烧伤状态
         if (fireStatusTime >= fireTime) {
             fire = false;
