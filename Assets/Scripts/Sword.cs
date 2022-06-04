@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour {
     private float atk;
-    private bool define = false;
+    //private bool define = false;
 
     public void SetAttack(float atk) {
         this.atk = atk;
@@ -20,21 +20,26 @@ public class Sword : MonoBehaviour {
         else if (this.transform.parent.tag.Equals("Enemy")) {
             // 敌人打到盾
             if (collision.gameObject.tag.Equals("Shield")) {
-                define = true;
+                // 背面打到盾
+                if((this.transform.parent.position.x - collision.transform.position.x) * collision.transform.localScale.x < 0) {
+                    PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+                    player.tag = "Player";
+                    player.Hurt(atk);
+                }
             }
             // 敌人打到玩家
             else if (collision.gameObject.tag.Equals("Player")) {
                 PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-                // 没防御，受伤
-                if (!define) player.Hurt(atk);
+                player.tag = "Player";
+                player.Hurt(atk);
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
+    /*private void OnTriggerExit2D(Collider2D collision) {
         // 攻击结束，取消确认防御状态
         if (collision.gameObject.tag.Equals("Player")) {
             define = false;
         }
-    }
+    }*/
 }

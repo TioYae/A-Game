@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour {
     [Space]
     private Animator animator;
     private Animator animatorSword;
-    private Animator animatorShield;
     private Rigidbody2D rb;
     private GroundSensor groundSensor; // 地面传感器
     private Sword sw; // 剑的类
@@ -47,6 +46,8 @@ public class PlayerController : MonoBehaviour {
     public float waterTime; // 迟滞持续时间
     private float fireStatusTime; // 已持续烧伤时间
     private float waterStatusTime; // 已持续迟滞时间
+    public GameObject fireImage; // 烧伤标志
+    public GameObject waterImage; // 迟缓标志
     [Space]
     public AudioClip attack1;
     public AudioClip attack2;
@@ -69,7 +70,6 @@ public class PlayerController : MonoBehaviour {
         bloodMax = blood;
         animator = GetComponent<Animator>();
         animatorSword = sword.GetComponent<Animator>();
-        animatorShield = shield.GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
@@ -80,16 +80,9 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // 烧伤
-        if (fire) {
-            blood -= fireHurt;
+        // 烧伤计时
+        if(fire)
             fireStatusTime += Time.deltaTime;
-            // 持续时间已到，取消烧伤状态
-            if (fireStatusTime >= fireTime) {
-                fire = false;
-                fireStatusTime = 0;
-            }
-        }
 
         // 迟滞
         if (water) {
@@ -101,6 +94,7 @@ public class PlayerController : MonoBehaviour {
                 water = false;
                 waterStatusTime = 0;
                 normalSpeed = speedRemember;
+                waterImage.SetActive(false);
             }
         }
 
@@ -143,13 +137,14 @@ public class PlayerController : MonoBehaviour {
         // 按住Shift加速
         if (Input.GetKey(KeyCode.LeftShift)) speed = normalSpeed * 1.5f;
         else speed = normalSpeed;
-        // 正在攻击或者正在防御不能移动
-        if (!attacking && !defining)
+        // 正在地面攻击或者正在防御不能移动
+        if ((!attacking && !defining) || (attacking && !grounded))
             rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
         else
             rb.velocity = new Vector2(0, rb.velocity.y);
         // 攻击，输入鼠标左键
         if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
+            this.tag = "Player";
             attacking = true;
             currentAttack++;
 
@@ -167,21 +162,18 @@ public class PlayerController : MonoBehaviour {
                     sw.SetAttack(atk);
 
                     audioSource.clip = attack1;
-                    audioSource.Play();
                     break;
                 case 2:
                     // 第2击伤害为1.1倍基础攻击力
                     sw.SetAttack(atk * 1.1f);
 
                     audioSource.clip = attack1;
-                    audioSource.Play();
                     break;
                 case 3:
                     // 第3击伤害为1.25倍基础攻击力
                     sw.SetAttack(atk * 1.25f);
 
                     audioSource.clip = attack2;
-                    audioSource.Play();
                     break;
                 default:
                     break;
@@ -190,33 +182,31 @@ public class PlayerController : MonoBehaviour {
             // 将第n下攻击的Trigger选中
             animator.SetTrigger("Attack" + currentAttack);
             animatorSword.SetTrigger("Attack" + currentAttack);
-            animatorShield.SetBool("Defensing", false);
 
             // 重置攻击间隔
             timeSinceAttack = 0.0f;
         }
         // 防御，输入鼠标右键
         else if (Input.GetMouseButtonDown(1)) {
+            this.tag = "Shield";
             attacking = false;
             defining = true;
             animator.SetTrigger("Block");
             animator.SetBool("IdleBlock", true);
             animatorSword.SetTrigger("cancel");
-            animatorShield.SetBool("Defensing", true);
-            animatorShield.SetTrigger("Defense");
         }
         // 取消防御，松开鼠标右键
         else if (Input.GetMouseButtonUp(1)) {
+            this.tag = "Player";
             defining = false;
             animator.SetBool("IdleBlock", false);
-            animatorShield.SetBool("Defensing", false);
         }
         // 跳跃
         else if (Input.GetKeyDown("space") && grounded) {
+            this.tag = "Player";
             attacking = false;
             animator.SetTrigger("Jump");
             animatorSword.SetTrigger("cancel");
-            animatorShield.SetBool("Defensing", false);
             grounded = false;
             animator.SetBool("Grounded", grounded);
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -230,10 +220,10 @@ public class PlayerController : MonoBehaviour {
             //Debug.Log(-playReBoundDirect);
             //对雷鸟添加一个力
             theBird.GetComponent<Rigidbody2D>().AddForce(-playReBoundDirect * reBoundForce);
+            this.tag = "Player";
             attacking = false;
             animator.SetTrigger("Jump");
             animatorSword.SetTrigger("cancel");
-            animatorShield.SetBool("Defensing", false);
             grounded = false;
             animator.SetBool("Grounded", grounded);
             //Todo:给玩家垂直向上力还是斜方向力？
@@ -255,6 +245,11 @@ public class PlayerController : MonoBehaviour {
                 animator.SetInteger("AnimState", 0);
             }
         }
+    }
+
+    // 播放声音
+    public void AudioPlay() {
+        audioSource.Play();
     }
 
     // 增加经验值
@@ -306,12 +301,31 @@ public class PlayerController : MonoBehaviour {
         if (status.Equals("Fire")) {
             fireHurt = atk;
             fire = true;
+            fireImage.SetActive(true);
+            // 每秒扣除一定血量
+            Invoke(nameof(HurtByFire), 1f);
         }
         else if (status.Equals("Water")) {
             water = true;
+            waterImage.SetActive(true);
         }
     }
 
+    // 烧伤
+    void HurtByFire() {
+        blood -= fireHurt;
+        // 持续时间已到，取消烧伤状态
+        if (fireStatusTime >= fireTime) {
+            fire = false;
+            fireStatusTime = 0;
+            fireImage.SetActive(false);
+        }
+        if (fire) {
+            Invoke(nameof(HurtByFire), 1f);
+        }
+    }
+
+    // 死亡
     public void Death() {
         // 暂停游戏
         Time.timeScale = 0f;
@@ -368,6 +382,6 @@ public class PlayerController : MonoBehaviour {
         var str = File.ReadAllText(path);
         SaveData saveData = JsonUtility.FromJson<SaveData>(str);
         level = saveData.GetLevel();
-        exp = saveData.GetExp(); 
+        exp = saveData.GetExp();
     }
 }
