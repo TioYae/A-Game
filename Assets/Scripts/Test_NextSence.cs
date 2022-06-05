@@ -15,8 +15,10 @@ public class Test_NextSence : MonoBehaviour {
     }
 
     //обр╩╧ь
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag.Equals("Player"))
+    private void OnTriggerStay2D(Collider2D collision) {
+        if (collision.tag.Equals("Player") && Input.GetKey(KeyCode.W)) {
+            collision.gameObject.GetComponent<PlayerController>().Save();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

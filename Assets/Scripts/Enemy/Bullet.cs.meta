@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/Inventory/Inventory.cs.meta
+guid: a97154850440fc648bc7534406026b20
+=======
+guid: a46cda298944599428aef6bf43ab0626
+>>>>>>> ai:Assets/Scripts/Enemy/Bullet.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

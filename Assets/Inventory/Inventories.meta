@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Inventory/Inventories.meta
 guid: 839dfea68df00b4458c3fac099f83f96
 folderAsset: yes
+=======
+guid: 5a727cb79d86a7c4d8c296e1dd787ca4
+>>>>>>> ai:Assets/Scenes/ChooseLevel.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
