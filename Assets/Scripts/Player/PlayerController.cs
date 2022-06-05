@@ -21,6 +21,12 @@ public class PlayerController : MonoBehaviour {
     private float bloodMax; // 最大血量
     private float normalSpeed; // 默认速度
     private float speedRemember; // 记录初始速度
+    private Vector2 moveDirection; // 角色朝向
+    [Space]
+    private bool isShift;
+    private bool isShiftFinish = true; // 瞬移是否完成
+    private float startShiftTime;
+    public float shiftCD;
     [Space]
     public GameObject sword; // 剑的触发器
     public GameObject popupDamage; // 伤害数字
@@ -55,7 +61,8 @@ public class PlayerController : MonoBehaviour {
     public AudioClip hurt1;
     public AudioClip hurt2;
     public AudioClip death1;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
+    public AudioSource bgm;
     //反弹机制
     public static bool isNearBird = false;
     public static int reBoundCount = 0;
@@ -75,7 +82,6 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         speedRemember = speed;
-        audioSource = this.GetComponent<AudioSource>();
         sw = sword.GetComponent<Sword>();
     }
 
@@ -123,6 +129,17 @@ public class PlayerController : MonoBehaviour {
         GetInput();
     }
 
+    private void FixedUpdate() {
+        if (isShift) {
+            float movePositionX = transform.position.x + moveDirection.x * 3;
+            float movePositionY = transform.position.y + moveDirection.y;
+            Vector2 desPos = new Vector2(movePositionX, movePositionY);
+            rb.MovePosition(desPos);
+            isShift = false;
+        }
+    }
+
+
     void GetInput() {
         // 获取Horizontal对应键位(A/D)输入的值
         float inputX = Input.GetAxis("Horizontal");
@@ -135,14 +152,24 @@ public class PlayerController : MonoBehaviour {
             this.transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
+        moveDirection = new Vector2(transform.localScale.x, 0).normalized;
         // 按住Shift加速
-        if (Input.GetKey(KeyCode.LeftShift)) speed = normalSpeed * 1.5f;
-        else speed = normalSpeed;
+        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            isShiftFinish = false;
+            startShiftTime = shiftCD;
+            isShift = true;
+        }
+        else {
+            startShiftTime -= Time.deltaTime;
+            if(startShiftTime <= 0) {
+                isShiftFinish = true;
+            }
+        }
         // 正在地面攻击或者正在防御不能移动
         if ((!attacking && !defining) || (attacking && !grounded))
             rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
-        else
-            rb.velocity = new Vector2(0, rb.velocity.y);
+        /*else
+            rb.velocity = new Vector2(0, rb.velocity.y);*/
         // 攻击，输入鼠标左键
         if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
             this.tag = "Player";
@@ -182,7 +209,7 @@ public class PlayerController : MonoBehaviour {
 
             // 将第n下攻击的Trigger选中
             animator.SetTrigger("Attack" + currentAttack);
-            animatorSword.SetTrigger("Attack" + currentAttack);
+            //animatorSword.SetTrigger("Attack" + currentAttack);
 
             // 重置攻击间隔
             timeSinceAttack = 0.0f;
@@ -248,8 +275,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    // 播放声音
-    public void AudioPlay() {
+    // 播放剑的触发器动画并播放攻击音效
+    public void SetSwordPlay(int i) {
+        animatorSword.SetTrigger("Attack" + i);
         audioSource.Play();
     }
 
@@ -418,5 +446,10 @@ public class PlayerController : MonoBehaviour {
         SaveData saveData = JsonUtility.FromJson<SaveData>(str);
         level = saveData.GetLevel();
         exp = saveData.GetExp();
+    }
+
+    // 播放BGM
+    public void BGMPlay() {
+        bgm.Play();
     }
 }

@@ -9,7 +9,7 @@ public class Enemy_Coin : Enemy {
     protected override void Start() {
         base.Start();
         moveDealyTime = Random.Range(10f, 20f); // 10s到20s延迟触发一次移动
-        attackDealyTime = Random.Range(5f, 10f); // 设置5s到10s的攻击延迟
+        attackDealyTime = Random.Range(5f, 15f); // 设置5s到15s的攻击延迟
     }
 
     // Update is called once per frame
@@ -25,7 +25,7 @@ public class Enemy_Coin : Enemy {
 
             // 延迟时间到了
             if (attackDealyTime <= 0) {
-                attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
+                attackDealyTime = Random.Range(5f, 15f); // 设置5s到15s的攻击延迟
                 anim.SetTrigger("attack");
                 //anim.SetBool("attacking", true);
                 // todo 

@@ -25,6 +25,12 @@ public class Enemy : MonoBehaviour {
     public string enemyName; // 怪物名字
     public string enemyLevel; // 怪物等级
     [Space]
+    public bool isBoss;
+    public Image pic;
+    private bool openTheDoor;
+    public GameObject door;
+    public GameObject doorClose;
+    [Space]
     public GameObject leftPosition; // 巡逻区域左端点
     public GameObject rightPosition; // 巡逻区域右端点
     protected float left_x; // 巡逻区域左端点值
@@ -32,7 +38,8 @@ public class Enemy : MonoBehaviour {
     protected float destination; // 巡逻区域内一点
     [Space]
     public GameObject player;
-    public GameObject enemyStatus;
+    public GameObject enemyStatus; // 名字、等级、血条
+    public GameObject popupDamage; // 回复数字
     protected Rigidbody2D rb;
     protected Rigidbody2D wallRb;
     protected Animator anim;
@@ -52,6 +59,7 @@ public class Enemy : MonoBehaviour {
         // 设置名字与等级
         enemyStatus.transform.GetChild(0).GetComponent<Text>().text = enemyName;
         enemyStatus.transform.GetChild(1).GetComponent<Text>().text = enemyLevel;
+        openTheDoor = isBoss;
     }
 
     protected virtual void Update() {
@@ -191,6 +199,7 @@ public class Enemy : MonoBehaviour {
         finalDistance = UnityEngine.Random.Range(minDistance, maxDistance);
         found = true;
         follow = true;
+        if (isBoss) PlayAnimation();
     }
 
     // 跟丢玩家
@@ -208,12 +217,24 @@ public class Enemy : MonoBehaviour {
     // 回血
     public void BloodUp(float present) {
         blood += bloodMax * present;
+        // 回复数字
+        GameObject obj = Instantiate(popupDamage, this.transform.position, Quaternion.identity);
+        obj.GetComponent<DamagePopup>().value = -bloodMax * present;
     }
 
     // 死亡
     void Death() {
         player.GetComponent<PlayerController>().ExpUp(exp);
+        if (openTheDoor) {
+            door.SetActive(true);
+            doorClose.SetActive(false);
+        }
         Destroy(enemyStatus);
         Destroy(this.gameObject);
+    }
+
+    void PlayAnimation() {
+        pic.gameObject.SetActive(true);
+        isBoss = false;
     }
 }
