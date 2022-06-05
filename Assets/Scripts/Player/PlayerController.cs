@@ -284,7 +284,8 @@ public class PlayerController : MonoBehaviour {
         if (hurtBlood >= blood) {
             blood = 0;
             // «–ªªÀ¿Õˆ∂Øª≠
-            animator.SetBool("Death", true);
+            animator.SetBool("IsDeath", true);
+            animator.SetTrigger("Death");
             audioSource.clip = death1;
             audioSource.Play();
         }
@@ -399,11 +400,19 @@ public class PlayerController : MonoBehaviour {
     void Load() {
         var path = Path.Combine(Application.dataPath, "savedata");
         DirectoryInfo dir = new DirectoryInfo(path);
-        if (!dir.Exists) level = 1;
+        if (!dir.Exists) {
+            level = 1;
+            exp = 0;
+            return;
+        }
 
         path = Path.Combine(path, "data.json");
         FileInfo fileInfo = new FileInfo(path);
-        if (!fileInfo.Exists) level = 1;
+        if (!fileInfo.Exists) {
+            level = 1;
+            exp = 0;
+            return;
+        }
 
         var str = File.ReadAllText(path);
         SaveData saveData = JsonUtility.FromJson<SaveData>(str);
