@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6ab31c5727ce05940945b469ad0ad82a
+guid: 2be265038f7a83c47a6415d7ac1b21ce
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -66,7 +66,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: waterwizzard_idle_0
+      name: waterwizzard_move_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28e9c6fe05223274e96306c8508b6189
-      internalID: 1295712553
+      spriteID: 7d9cf2594da073f4cb9c95be64d7013e
+      internalID: 1337696133
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_1
+      name: waterwizzard_move_1
       rect:
         serializedVersion: 2
         x: 900
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83825228caa12a547891a3e8aa961763
-      internalID: -1716201939
+      spriteID: 35929aa8db4f47a458d165021d2dca52
+      internalID: 344139018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_2
+      name: waterwizzard_move_2
       rect:
         serializedVersion: 2
         x: 1800
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1649ac94cc83704e81201601aed3d63
-      internalID: 1165658481
+      spriteID: 32f35dff7d0470747afb7b0cfaa50cec
+      internalID: -1045064540
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_3
+      name: waterwizzard_move_3
       rect:
         serializedVersion: 2
         x: 2700
@@ -181,14 +181,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9befa988e8576f4993c4f252b625783
-      internalID: -1195832227
+      spriteID: c84167a5ea15d1e4ba3ebfab07df3d5f
+      internalID: 1420217821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_4
+      name: waterwizzard_move_4
       rect:
         serializedVersion: 2
         x: 3600
@@ -202,14 +202,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3230472d11e820246884a8274646157f
-      internalID: -245672292
+      spriteID: 1fa80566e99d01449a916e9a079f661f
+      internalID: -806093978
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_5
+      name: waterwizzard_move_5
       rect:
         serializedVersion: 2
         x: 4500
@@ -223,14 +223,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7155c0f7b61d4bf408739a1e53bd43f1
-      internalID: -489576587
+      spriteID: 5626600883d20f84fb630ff1b72d0195
+      internalID: 1817397193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_6
+      name: waterwizzard_move_6
       rect:
         serializedVersion: 2
         x: 5400
@@ -244,14 +244,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24fed3e210bcebb46b37d89383370a0d
-      internalID: -617449171
+      spriteID: 5845696f07556da4b9d7577f40c7fc66
+      internalID: 587792682
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_7
+      name: waterwizzard_move_7
       rect:
         serializedVersion: 2
         x: 6300
@@ -265,8 +265,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 802f06c628bb89b4382dfdb573bfd48a
-      internalID: -559794086
+      spriteID: dab0d74594972cb4da209cac91ce2a71
+      internalID: 654329936
       vertices: []
       indices: 
       edges: []
@@ -282,14 +282,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      waterwizzard_idle_6: -617449171
-      waterwizzard_idle_4: -245672292
-      waterwizzard_idle_7: -559794086
-      waterwizzard_idle_0: 1295712553
-      waterwizzard_idle_5: -489576587
-      waterwizzard_idle_2: 1165658481
-      waterwizzard_idle_3: -1195832227
-      waterwizzard_idle_1: -1716201939
+      waterwizzard_move_2: -1045064540
+      waterwizzard_move_0: 1337696133
+      waterwizzard_move_6: 587792682
+      waterwizzard_move_4: -806093978
+      waterwizzard_move_5: 1817397193
+      waterwizzard_move_3: 1420217821
+      waterwizzard_move_7: 654329936
+      waterwizzard_move_1: 344139018
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

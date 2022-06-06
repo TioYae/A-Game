@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8235e20922565624a819fe391dd1e872
+guid: 388ef0bc6397f334e82abe216cf77a31
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,13 +104,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: waterwizzard_atk_0
+      name: waterwizzard_TakeHit_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 900
-        height: 900
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,8 +118,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e0a9c0337aa7b546afa501a520fa7cc
-      internalID: -1546077805
+      spriteID: 2ff28cdbe46ff64489647beee993da76
+      internalID: 693929762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterwizzard_TakeHit_1
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5887af994ec7b2840b0789bb050addd1
+      internalID: 1673104077
       vertices: []
       indices: 
       edges: []
@@ -135,7 +156,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      waterwizzard_atk_0: -1546077805
+      waterwizzard_TakeHit_1: 1673104077
+      waterwizzard_TakeHit_0: 693929762
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

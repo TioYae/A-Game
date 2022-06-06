@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6ab31c5727ce05940945b469ad0ad82a
+guid: 8b4e28942103899448137049cfdf6450
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: waterwizzard_idle_0
+      name: waterwizzard_Death_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28e9c6fe05223274e96306c8508b6189
-      internalID: 1295712553
+      spriteID: 350d2f7cf0c5ae5468b287904d592d75
+      internalID: 716085138
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_1
+      name: waterwizzard_Death_1
       rect:
         serializedVersion: 2
         x: 900
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83825228caa12a547891a3e8aa961763
-      internalID: -1716201939
+      spriteID: 09d7650810e89524ab582b2719cf65e8
+      internalID: 539172586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_2
+      name: waterwizzard_Death_2
       rect:
         serializedVersion: 2
         x: 1800
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1649ac94cc83704e81201601aed3d63
-      internalID: 1165658481
+      spriteID: 838f53c46f3086c4c83a779a89aa44d0
+      internalID: 94241674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_3
+      name: waterwizzard_Death_3
       rect:
         serializedVersion: 2
         x: 2700
@@ -181,14 +181,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9befa988e8576f4993c4f252b625783
-      internalID: -1195832227
+      spriteID: 4dc787b21a00b424e9fe607c047f51f8
+      internalID: -662006797
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: waterwizzard_idle_4
+      name: waterwizzard_Death_4
       rect:
         serializedVersion: 2
         x: 3600
@@ -202,71 +202,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3230472d11e820246884a8274646157f
-      internalID: -245672292
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: waterwizzard_idle_5
-      rect:
-        serializedVersion: 2
-        x: 4500
-        y: 0
-        width: 900
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7155c0f7b61d4bf408739a1e53bd43f1
-      internalID: -489576587
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: waterwizzard_idle_6
-      rect:
-        serializedVersion: 2
-        x: 5400
-        y: 0
-        width: 900
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 24fed3e210bcebb46b37d89383370a0d
-      internalID: -617449171
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: waterwizzard_idle_7
-      rect:
-        serializedVersion: 2
-        x: 6300
-        y: 0
-        width: 900
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 802f06c628bb89b4382dfdb573bfd48a
-      internalID: -559794086
+      spriteID: 311596b9d186fbb41b83e62e289df44c
+      internalID: -785736523
       vertices: []
       indices: 
       edges: []
@@ -282,14 +219,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      waterwizzard_idle_6: -617449171
-      waterwizzard_idle_4: -245672292
-      waterwizzard_idle_7: -559794086
-      waterwizzard_idle_0: 1295712553
-      waterwizzard_idle_5: -489576587
-      waterwizzard_idle_2: 1165658481
-      waterwizzard_idle_3: -1195832227
-      waterwizzard_idle_1: -1716201939
+      waterwizzard_Death_2: 94241674
+      waterwizzard_Death_1: 539172586
+      waterwizzard_Death_0: 716085138
+      waterwizzard_Death_3: -662006797
+      waterwizzard_Death_4: -785736523
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

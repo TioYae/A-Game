@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8235e20922565624a819fe391dd1e872
+guid: 1605b2760ba485248adff2155581b583
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: waterwizzard_atk_0
+      name: Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,8 +118,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e0a9c0337aa7b546afa501a520fa7cc
-      internalID: -1546077805
+      spriteID: 486fc8b0a1910b94e9f598b2e3b3f06e
+      internalID: -501353066
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      waterwizzard_atk_0: -1546077805
+      Idle_0: -501353066
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

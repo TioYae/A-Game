@@ -25,11 +25,11 @@ public class Enemy : MonoBehaviour {
     public string enemyName; // 怪物名字
     public string enemyLevel; // 怪物等级
     [Space]
-    public bool isBoss;
-    public Image pic;
-    private bool openTheDoor;
-    public GameObject door;
-    public GameObject doorClose;
+    public bool isAnim; // 是否播放初见动画
+    public bool isBoss; // 是否BOSS，是BOSS要打完才开门
+    public Image picture; // 初见动画
+    public GameObject door; // 真通关门
+    public GameObject doorClose; // 关着的通关门
     [Space]
     public GameObject leftPosition; // 巡逻区域左端点
     public GameObject rightPosition; // 巡逻区域右端点
@@ -59,7 +59,6 @@ public class Enemy : MonoBehaviour {
         // 设置名字与等级
         enemyStatus.transform.GetChild(0).GetComponent<Text>().text = enemyName;
         enemyStatus.transform.GetChild(1).GetComponent<Text>().text = enemyLevel;
-        openTheDoor = isBoss;
     }
 
     protected virtual void Update() {
@@ -196,10 +195,10 @@ public class Enemy : MonoBehaviour {
 
     // 找到玩家
     public void FoundPlayer() {
-        finalDistance = UnityEngine.Random.Range(minDistance, maxDistance);
+        finalDistance = Random.Range(minDistance, maxDistance);
         found = true;
         follow = true;
-        if (isBoss) PlayAnimation();
+        if (isAnim) PlayAnimation();
     }
 
     // 跟丢玩家
@@ -225,7 +224,7 @@ public class Enemy : MonoBehaviour {
     // 死亡
     void Death() {
         player.GetComponent<PlayerController>().ExpUp(exp);
-        if (openTheDoor) {
+        if (isBoss) {
             door.SetActive(true);
             doorClose.SetActive(false);
         }
@@ -234,7 +233,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void PlayAnimation() {
-        pic.gameObject.SetActive(true);
+        picture.gameObject.SetActive(true);
         isBoss = false;
     }
 }
