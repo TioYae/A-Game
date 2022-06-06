@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 01b8daa0eab10124c874b12d505cdf01
+guid: 4a5df1cbcfbeb444d96e0becbdec66a5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -66,10 +66,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TakeHit_0
+      name: Take Hit_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88f0123e935fdc44a93b524f94008155
-      internalID: 1502182418
+      spriteID: 77e80365c41d7d143bdbf965da62d39a
+      internalID: 23918245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TakeHit_1
+      name: Take Hit_1
       rect:
         serializedVersion: 2
         x: 900
@@ -139,8 +139,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1eb21a56e9ba3c4f8abf9a868924004
-      internalID: 133779300
+      spriteID: f655202843c22c04a8902db8ac67cca2
+      internalID: -944070937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take Hit_2
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 900
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bf49bf30a1e8cf488797b84a9ecc69c
+      internalID: -907317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take Hit_3
+      rect:
+        serializedVersion: 2
+        x: 2700
+        y: 0
+        width: 900
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b53627f9e3d5d7b4c96983cc745020f3
+      internalID: -1170014918
       vertices: []
       indices: 
       edges: []
@@ -156,8 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TakeHit_1: 133779300
-      TakeHit_0: 1502182418
+      Take Hit_2: -907317
+      Take Hit_1: -944070937
+      Take Hit_0: 23918245
+      Take Hit_3: -1170014918
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

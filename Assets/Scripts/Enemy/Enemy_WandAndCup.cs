@@ -27,8 +27,7 @@ public class Enemy_WandAndCup : Enemy {
             if (attackDealyTime <= 0) {
                 attackDealyTime = Random.Range(1f, 5f); // 设置1s到5s的攻击延迟
                 anim.SetTrigger("attack");
-                //anim.SetBool("attacking", true);
-                // todo 
+                anim.SetBool("attacking", true);
                 // 根据prefab创建新子弹
                 SetATK();
             }
