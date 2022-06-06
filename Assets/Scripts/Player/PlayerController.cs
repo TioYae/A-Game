@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] List<int> expLevel; // 升级需要的经验值
     private float bloodMax; // 最大血量
     private float normalSpeed; // 默认速度
-    private float speedRemember; // 记录初始速度
     private Vector2 moveDirection; // 角色朝向
     [Space]
     private bool isShift;
@@ -32,6 +31,9 @@ public class PlayerController : MonoBehaviour {
     public GameObject popupDamage; // 伤害数字
     //public GameObject shield; // 盾牌的触发器
     //public GameObject deathMenu; // 死亡菜单
+    //public GameObject pauseMenu; // 暂停菜单
+    //public GameObject passMenu; // 过关菜单
+    public GameObject DiaLogUI; // 剧情UI
     [Space]
     private Animator animator;
     private Animator animatorSword;
@@ -46,6 +48,7 @@ public class PlayerController : MonoBehaviour {
     private float delayToIdle = 0.0f;
     private bool attacking = false; // 是否正在攻击
     private bool defining = false; // 是否正在防御
+    private bool controllable = true; // 是否允许玩家操控
     private bool fire = false; // 是否烧伤
     private bool water = false; // 是否迟滞
     private float fireHurt; // 烧伤伤害
@@ -81,26 +84,38 @@ public class PlayerController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
-        speedRemember = speed;
         sw = sword.GetComponent<Sword>();
     }
 
     // Update is called once per frame
     void Update() {
+        // 进剧情时禁止玩家操控
+        if (DiaLogUI.activeSelf) {
+            controllable = false;
+            // 取消速度
+            rb.velocity = new Vector2(0, 0);
+            // 还原站立
+            delayToIdle -= Time.deltaTime;
+            if (delayToIdle < 0) {
+                animator.SetInteger("AnimState", 0);
+            }
+        }
+        else {
+            controllable = true;
+        }
+
         // 烧伤计时
-        if(fire)
+        if (fire)
             fireStatusTime += Time.deltaTime;
 
         // 迟滞
         if (water) {
-            // 默认速度设为初始速度的1/2，速度更新在判断是否按下左Shift处，此处无需更新
-            normalSpeed = speedRemember / 2;
             waterStatusTime += Time.deltaTime;
             // 持续时间已到，取消迟滞状态
             if (waterStatusTime >= waterTime) {
+                speed = normalSpeed;
                 water = false;
                 waterStatusTime = 0;
-                normalSpeed = speedRemember;
                 waterImage.SetActive(false);
             }
         }
@@ -126,7 +141,9 @@ public class PlayerController : MonoBehaviour {
         // 设置空中垂直速度
         animator.SetFloat("AirSpeedY", rb.velocity.y);
 
-        GetInput();
+        // 允许操作时读取输入键位
+        if (controllable)
+            GetInput();
     }
 
     private void FixedUpdate() {
@@ -153,7 +170,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         moveDirection = new Vector2(transform.localScale.x, 0).normalized;
-        // 按住Shift加速
+        // 按左Shift突进
         if (Input.GetKeyDown(KeyCode.LeftShift)) {
             isShiftFinish = false;
             startShiftTime = shiftCD;
@@ -161,7 +178,7 @@ public class PlayerController : MonoBehaviour {
         }
         else {
             startShiftTime -= Time.deltaTime;
-            if(startShiftTime <= 0) {
+            if (startShiftTime <= 0) {
                 isShiftFinish = true;
             }
         }
@@ -353,6 +370,7 @@ public class PlayerController : MonoBehaviour {
                 waterStatusTime = 0;
             }
             else {
+                speed /= 2;
                 water = true;
                 waterImage.SetActive(true);
             }
