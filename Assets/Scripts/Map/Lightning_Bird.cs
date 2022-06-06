@@ -9,11 +9,15 @@ public class Lightning_Bird : MonoBehaviour
     public Vector2 playerReboundDir; //玩家被弹方向
     public float moveSpeed; //雷鸟初始速度
     public float atkBird; //雷鸟击中玩家伤害
+    private Animator anim;
+    //private BoxCollider2D boxCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        //boxCollider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -53,10 +57,11 @@ public class Lightning_Bird : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //砸到墙体则销毁
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "OneWayPlatform")
         {
-            Destroy(gameObject);
-        }else if (collision.gameObject.tag == "Player")
+            anim.SetTrigger("boom");
+        }
+        else if (collision.gameObject.tag == "Player")
         {
             //获取到玩家脚本
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
@@ -65,4 +70,8 @@ public class Lightning_Bird : MonoBehaviour
         }
     }
 
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
 }
