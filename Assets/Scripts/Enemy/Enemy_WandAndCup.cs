@@ -78,7 +78,7 @@ public class Enemy_WandAndCup : Enemy {
         GameObject obj = Instantiate(bullet);
         obj.SetActive(true);
         obj.GetComponent<Bullet>().SetAttack(atk);
-        obj.transform.parent = this.transform;
+        //obj.transform.parent = this.transform;
         obj.transform.position = this.transform.position;
         Rigidbody2D bulletRb = obj.GetComponent<Rigidbody2D>();
         // 调整方向

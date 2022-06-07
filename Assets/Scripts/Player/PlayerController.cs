@@ -129,17 +129,22 @@ public class PlayerController : MonoBehaviour {
 
         // 更新血量、能量条、经验条、等级
         bloodImage.transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
-        //energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = ? / ?;
-        if (level < expLevel.Count)
-            expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[level];
+        energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = energy / energyMax;
+        if (level < expLevel.Count) {
+            expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = 1f * exp / expLevel[level];
+            expImage.transform.GetChild(1).GetComponent<Text>().text = exp + "/" + expLevel[level];
+        }
         else {
-            if (exp >= expLevel[expLevel.Count - 1]) expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
-            else expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[expLevel.Count - 1];
+            if (exp >= expLevel[expLevel.Count - 1]) {
+                expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
+                expImage.transform.GetChild(1).GetComponent<Text>().text = expLevel[expLevel.Count - 1] + "/" + expLevel[expLevel.Count - 1];
+            }
+            else {
+                expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = 1f * exp / expLevel[expLevel.Count - 1];
+                expImage.transform.GetChild(1).GetComponent<Text>().text = exp + "/" + expLevel[expLevel.Count - 1];
+            }
         }
         levelText.text = "Lv." + level;
-
-        // 更新能量
-        energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = energy / energyMax;
 
         // 持续更新攻击间隔时间
         timeSinceAttack += Time.deltaTime;
@@ -216,6 +221,7 @@ public class PlayerController : MonoBehaviour {
             rb.velocity = new Vector2(0, rb.velocity.y);*/
         // 攻击，输入鼠标左键
         if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
+            if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
             this.tag = "Player";
             attacking = true;
             currentAttack++;
@@ -425,14 +431,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    // 判断是否复活
+    // 显示死亡菜单
     public void DeathOrReburn() {
-        if (/* todo：背包有复活药 */false) {
-            reburnUI.SetActive(true);
-        }
-        else {
-            Death();
-        }
+        Death();
+        //reburnUI.SetActive(true);
     }
 
     // 回血
@@ -452,8 +454,7 @@ public class PlayerController : MonoBehaviour {
         rb.Sleep();
         // 暂停游戏
         Time.timeScale = 0f;
-        // todo:打开死亡菜单
-        //deathMenu.SetActive(true);
+        deathMenu.SetActive(true);
         Debug.Log(this.name + " Dead");
     }
 
@@ -464,11 +465,11 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        if (collision.gameObject.GetComponent<Lightning_Bird>()) {
-            theBird = null;
-        }
-    }
+    //private void OnTriggerExit2D(Collider2D collision) {
+    //    if (collision.gameObject.GetComponent<Lightning_Bird>()) {
+    //        theBird = null;
+    //    }
+    //}
 
     // 存档
     public void Save() {
@@ -523,15 +524,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     //用药 by赖江
-    public void usePotion()
-    {
+    public void usePotion() {
         blood += 10;
         if (blood >= 100)
             blood = 100;
     }
 
-    public void useBigPotion()
-    {
+    public void useBigPotion() {
         blood += 50;
         if (blood >= 100)
             blood = 100;
