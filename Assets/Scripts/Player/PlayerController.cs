@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject theBird;
     private Vector2 playReBoundDirect;
     public float reBoundForce;
-
+    public GameObject InventorySys;
     // Use this for initialization
     void Start() {
         Load();
@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
+        InventorySys = GameObject.Find("InventorySys");
     }
 
     // Update is called once per frame
@@ -368,6 +369,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetTrigger("Death");
             audioSource.clip = death1;
             audioSource.Play();
+            DeathOrReburn();
         }
         else {
             blood -= hurtBlood;
@@ -432,9 +434,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     // ÏÔÊ¾ËÀÍö²Ëµ¥
-    public void DeathOrReburn() {
-        Death();
-        //reburnUI.SetActive(true);
+    public void DeathOrReburn()
+    {
+        if (InventorySys.GetComponent<InventorySys>().findRevivePotion())
+        {
+            reburnUI.SetActive(true);
+        }
+        else
+        {
+            Death();
+        }
     }
 
     // »ØÑª
