@@ -226,7 +226,8 @@ public class Enemy : MonoBehaviour {
     void Death() {
         player.GetComponent<PlayerController>().ExpUp(exp);
         if (isBoss) {
-            DialogUI.SetActive(true);//boss死了触发剧情对话
+            if (DialogUI != null)
+                DialogUI.SetActive(true);//boss死了触发剧情对话
             door.SetActive(true);
             doorClose.SetActive(false);
         }
@@ -236,6 +237,6 @@ public class Enemy : MonoBehaviour {
 
     void PlayAnimation() {
         picture.gameObject.SetActive(true);
-        isBoss = false;
+        isAnim = false;
     }
 }
