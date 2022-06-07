@@ -14,6 +14,7 @@ public class Item : ScriptableObject
     public string itemName;//物品名字
     public Sprite itemImage;//物品图片
     public int itemHeld; //物品数量
+    public int maxHeld;
 
     [TextArea]
     public string itemInfo;//物品描述

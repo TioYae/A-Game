@@ -79,8 +79,11 @@ public class PlayerController : MonoBehaviour {
     private Vector2 playReBoundDirect;
     public float reBoundForce;
 
+    public GameObject InventorySys;
+
     // Use this for initialization
     void Start() {
+
         Load();
         atk = atkLevel[level - 1];
         blood = bloodLevel[level - 1];
@@ -92,6 +95,8 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
+
+        InventorySys = GameObject.Find("InventorySys");
     }
 
     // Update is called once per frame
@@ -129,12 +134,13 @@ public class PlayerController : MonoBehaviour {
 
         // 更新血量、能量条、经验条、等级
         bloodImage.transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
-        //energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = ? / ?;
-        if (level < expLevel.Count)
-            expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[level];
-        else {
+       // energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = ? / ?;
+        if (level < expLevel.Count) 
+         expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[level];
+        else
+        {
             if (exp >= expLevel[expLevel.Count - 1]) expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
-            else expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[expLevel.Count - 1];
+           else expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[expLevel.Count - 1];
         }
         levelText.text = "Lv." + level;
 
@@ -349,11 +355,14 @@ public class PlayerController : MonoBehaviour {
         animatorSword.SetTrigger("hurt");
         if (hurtBlood >= blood) {
             blood = 0;
+          
             // 切换死亡动画
             animator.SetBool("IsDeath", true);
             animator.SetTrigger("Death");
             audioSource.clip = death1;
             audioSource.Play();
+            DeathOrReburn();
+
         }
         else {
             blood -= hurtBlood;
@@ -418,24 +427,35 @@ public class PlayerController : MonoBehaviour {
     }
 
     // 判断是否复活
+
     public void DeathOrReburn() {
-        if (/* todo：背包有复活药 */false) {
+      //  Debug.Log(InventorySys.GetComponent<InventorySys>().findRevivePotion());
+        if (InventorySys.GetComponent<InventorySys>().findRevivePotion())  
+        {
             reburnUI.SetActive(true);
         }
         else {
+            Debug.Log("222");
             Death();
         }
     }
 
     // 回血
     public void BloodUp(float value) {
+
         if (blood > 0) blood += value;
+        if (blood >= 100) blood = 100;
+
     }
 
     // 复活
     public void Reburn() {
         animator.SetTrigger("Reburn");
         animator.SetBool("Death", false);
+
+        reburnUI.SetActive(false);
+        deathMenu.SetActive(false);
+        Debug.Log("reborned");
     }
 
     // 死亡
@@ -445,7 +465,8 @@ public class PlayerController : MonoBehaviour {
         // 暂停游戏
         Time.timeScale = 0f;
         // todo:打开死亡菜单
-        //deathMenu.SetActive(true);
+        reburnUI.SetActive(false);
+        deathMenu.SetActive(true);
         Debug.Log(this.name + " Dead");
     }
 
@@ -514,20 +535,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    //用药 by赖江
-    public void usePotion()
-    {
-        blood += 10;
-        if (blood >= 100)
-            blood = 100;
-    }
 
-    public void useBigPotion()
-    {
-        blood += 50;
-        if (blood >= 100)
-            blood = 100;
-    }
 
 
 
