@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void Update() {
         // 更新血量
-        enemyStatus.transform.GetChild(2).transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;    
+        enemyStatus.transform.GetChild(2).transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
     }
 
     // 赋予攻击力的空方法，待子类重写
