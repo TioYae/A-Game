@@ -7,7 +7,7 @@ public class InventorySys : MonoBehaviour
     public Item selectedItem;//记录当前选中的物品
     public GameObject Player;
     public Inventory myBag;
-
+    public Item RevivePotion;
 
 
     public void useBtnClicked()
@@ -24,24 +24,21 @@ public class InventorySys : MonoBehaviour
     {
         for (int i = 0; i < myBag.itemList.Count; i++)
         {
-            if(myBag.itemList[i] != null)
+            if (myBag.itemList[i] != null)
 
-            if (myBag.itemList[i].itemName == "RevivePotion")
-                return true;
+                if (myBag.itemList[i].itemName == "RevivePotion")
+                    return true;
         }
         return false;
     }
 
-    public void reviveBtnClicked()//死亡后按左键复活
+    public void reviveBtnClicked()//死亡后按键复活
     {
-        Debug.Log("clicked");
-        for (int i = 0; i < myBag.itemList.Count; i++)
-        {
-            if (myBag.itemList[i] != null)
-                if (myBag.itemList[i].itemName == "RevivePotion")
-                useItem(myBag.itemList[i]);
-            return;
-        }
+        Debug.Log("reviveBtnclicked");
+
+        useItem(RevivePotion);
+        Player.GetComponent<PlayerController>().reburnUI.SetActive(false);
+        return;
     }
 
 
@@ -74,8 +71,8 @@ public class InventorySys : MonoBehaviour
                 thisItem.itemHeld--;
                 Player.GetComponent<PlayerController>().BloodUp(20f);
                 Player.GetComponent<PlayerController>().Reburn();
-            
-                // Debug.Log("不能直接用复活药");
+
+                Debug.Log("不能直接用复活药");
             }
             InventoryManager.RefreshItem();
         }
@@ -100,7 +97,7 @@ public class InventorySys : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -108,4 +105,30 @@ public class InventorySys : MonoBehaviour
     {
 
     }
+
+
+    public int GetItemHeld(Item item)
+    {
+        return item.itemHeld;
+    }
+
+    public void SetItemHeld(Item item, int held)
+    {
+        item.itemHeld = held;
+    }
+
+    public List<Item> GetBagList(Inventory inventory)
+    {
+        return inventory.itemList;
+    }
+
+    public void SetBagList(Inventory inventory, int i, Item item)
+    {
+        inventory.itemList[i] = item;
+    }
+
+
+
+
+
 }

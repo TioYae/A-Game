@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject theBird;
     private Vector2 playReBoundDirect;
     public float reBoundForce;
-
+    public GameObject InventorySys;
     // Use this for initialization
     void Start() {
         Load();
@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
+        InventorySys = GameObject.Find("InventorySys");
     }
 
     // Update is called once per frame
@@ -169,8 +170,7 @@ public class PlayerController : MonoBehaviour {
             GetInput();
 
         // 自动回复能量
-        if (energy < 100)
-        {
+        if (energy < 100) {
             energy += Time.timeScale * 0.02f;
         }
     }
@@ -368,6 +368,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetTrigger("Death");
             audioSource.clip = death1;
             audioSource.Play();
+            DeathOrReburn();
         }
         else {
             blood -= hurtBlood;
@@ -433,19 +434,26 @@ public class PlayerController : MonoBehaviour {
 
     // 显示死亡菜单
     public void DeathOrReburn() {
-        Death();
-        //reburnUI.SetActive(true);
+        /*if (InventorySys.GetComponent<InventorySys>().findRevivePotion()) {
+            reburnUI.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else {*/
+            Death();
+        //}
     }
 
     // 回血
     public void BloodUp(float value) {
-        if (blood > 0) blood += value;
+        if (blood > 0 && blood < bloodMax) blood += value;
+        if (blood > bloodMax) blood = bloodMax;
     }
 
     // 复活
     public void Reburn() {
+        blood = bloodMax;
         animator.SetTrigger("Reburn");
-        animator.SetBool("Death", false);
+        Time.timeScale = 1f;
     }
 
     // 死亡

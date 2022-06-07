@@ -490,9 +490,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 907867002}
     m_Modifications:
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: atk
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: exp
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: door
       value: 
       objectReference: {fileID: 1578567799}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: blood
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: isAnim
       value: 1
@@ -517,6 +529,14 @@ PrefabInstance:
       propertyPath: doorClose
       value: 
       objectReference: {fileID: 968520308}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: enemyName
+      value: "\u300C\u6743\u6756.Ace\u300D"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: enemyLevel
+      value: Lv.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: enemyStatus
       value: 
@@ -896,9 +916,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 907867002}
     m_Modifications:
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: atk
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: exp
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: blood
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 851952848}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: enemyLevel
+      value: Lv.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: enemyStatus
       value: 
@@ -1850,6 +1886,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 325389941}
     m_Modifications:
+    - target: {fileID: 2079096590, guid: d10cbe6b249ddc34db2eae14d2ae9f3d, type: 3}
+      propertyPath: PassMenu
+      value: 
+      objectReference: {fileID: 1792696335}
     - target: {fileID: 1013917086529220, guid: d10cbe6b249ddc34db2eae14d2ae9f3d, type: 3}
       propertyPath: m_Name
       value: to
@@ -44308,9 +44348,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 907867002}
     m_Modifications:
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: atk
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: exp
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: blood
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 851952848}
+    - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: enemyLevel
+      value: Lv.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233682, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: enemyStatus
       value: 
@@ -50611,13 +50667,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 122520913, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 454803257, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ef4cf3b238714f94a84aa3c12b40531b, type: 3}
+    - target: {fileID: 1147162006, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1147162007, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1155436345, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1575644252, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: textFile.Array.data[0]
@@ -50637,7 +50705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1801890094284192077, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3271625708817571340, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: Target
@@ -50937,7 +51005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6687119723157996254, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7394637119348108535, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_RootOrder
@@ -50945,7 +51013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8401202680299840362, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8421191231087640714, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_RootOrder

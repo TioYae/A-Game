@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NextSence : MonoBehaviour {
+    public GameObject PassMenu;
     // Start is called before the first frame update
     void Start() {
 
@@ -18,7 +19,8 @@ public class NextSence : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision) {
         if (collision.tag.Equals("Player") && Input.GetKey(KeyCode.F)) {
             collision.gameObject.GetComponent<PlayerController>().Save();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Time.timeScale = 0f;
+            PassMenu.SetActive(true);
         }
     }
 }
