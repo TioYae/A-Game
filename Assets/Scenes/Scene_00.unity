@@ -743,7 +743,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0220385, y: 1}
+    m_SensorSize: {x: 2.1596692, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -813,6 +813,10 @@ PrefabInstance:
       propertyPath: bloodImage
       value: 
       objectReference: {fileID: 15413474}
+    - target: {fileID: 2449285674294742425, guid: aaac7330a7ba9184d8ec6c48ae4d48df, type: 3}
+      propertyPath: energyImage
+      value: 
+      objectReference: {fileID: 1391608355}
     - target: {fileID: 2449285674294742425, guid: aaac7330a7ba9184d8ec6c48ae4d48df, type: 3}
       propertyPath: reBoundForce
       value: 1000
@@ -2754,6 +2758,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1391608355 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8861205443157462788, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
+  m_PrefabInstance: {fileID: 454803252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1404475256
 GameObject:
   m_ObjectHideFlags: 0

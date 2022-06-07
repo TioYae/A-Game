@@ -151,6 +151,12 @@ public class PlayerController : MonoBehaviour {
         // 允许操作时读取输入键位
         if (controllable)
             GetInput();
+
+        // 自动回复能量
+        if (energy < 100)
+        {
+            energy += Time.timeScale * 0.02f;
+        }
     }
 
     private void FixedUpdate() {
@@ -158,6 +164,7 @@ public class PlayerController : MonoBehaviour {
             float movePositionX = transform.position.x + moveDirection.x * 3;
             float movePositionY = transform.position.y + moveDirection.y;
             Vector2 desPos = new Vector2(movePositionX, movePositionY);
+            Debug.Log(desPos);
             rb.MovePosition(desPos);
             energy -= 30f;
             //Debug.Log("energy: " + energy);
