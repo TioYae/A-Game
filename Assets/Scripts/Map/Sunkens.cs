@@ -12,6 +12,7 @@ public class Sunkens : MonoBehaviour
 
     private void Start() {
         tempHurtCD = hurtCD;
+        hurtCD = 0;
     }
 
     private void Update() {
@@ -39,6 +40,7 @@ public class Sunkens : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.tag == "Player") {
             isHurt = false;
+            hurtCD = 0;
         }
     }
 }

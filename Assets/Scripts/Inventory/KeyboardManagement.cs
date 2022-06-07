@@ -35,27 +35,27 @@ public class KeyboardManagement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[0]);
+            InventorySys.GetComponent<InventorySys>().useItem(mybag.itemList[0]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[1]);
+            InventorySys.GetComponent<InventorySys>().useItem(mybag.itemList[1]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[2]);
+            InventorySys.GetComponent<InventorySys>().useItem(mybag.itemList[2]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[3]);
+            InventorySys.GetComponent<InventorySys>().useItem(mybag.itemList[3]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[4]);
+            InventorySys.GetComponent<InventorySys>().useItem(mybag.itemList[4]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[5]);
+            InventorySys.GetComponent<InventorySys>().useItem(mybag.itemList[5]);
         }
 
     }

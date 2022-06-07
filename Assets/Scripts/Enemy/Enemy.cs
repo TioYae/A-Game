@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour {
     public Image picture; // 初见动画
     public GameObject door; // 真通关门
     public GameObject doorClose; // 关着的通关门
+    public GameObject DialogUI;
     [Space]
     public GameObject leftPosition; // 巡逻区域左端点
     public GameObject rightPosition; // 巡逻区域右端点
@@ -63,7 +64,7 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void Update() {
         // 更新血量
-        enemyStatus.transform.GetChild(2).transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;    
+        enemyStatus.transform.GetChild(2).transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
     }
 
     // 赋予攻击力的空方法，待子类重写
@@ -225,6 +226,7 @@ public class Enemy : MonoBehaviour {
     void Death() {
         player.GetComponent<PlayerController>().ExpUp(exp);
         if (isBoss) {
+            DialogUI.SetActive(true);//boss死了触发剧情对话
             door.SetActive(true);
             doorClose.SetActive(false);
         }

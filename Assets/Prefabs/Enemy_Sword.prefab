@@ -270,8 +270,9 @@ MonoBehaviour:
   attackDealyTime: 0
   enemyName: "\u300C\u5B9D\u5251\u300D"
   enemyLevel: Lv.1
+  isAnim: 0
   isBoss: 0
-  pic: {fileID: 0}
+  picture: {fileID: 0}
   door: {fileID: 0}
   doorClose: {fileID: 0}
   leftPosition: {fileID: 1793645923}
@@ -390,7 +391,6 @@ GameObject:
   - component: {fileID: 5812972695409961885}
   - component: {fileID: 2099416490}
   - component: {fileID: 5812972695409961884}
-  - component: {fileID: 5812972695409961887}
   - component: {fileID: 5812972695409961882}
   - component: {fileID: 5812972695409961883}
   m_Layer: 9
@@ -449,28 +449,8 @@ EdgeCollider2D:
   m_Points:
   - {x: 0.095, y: 0.22}
   - {x: 0.095, y: -0.135}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
---- !u!68 &5812972695409961887
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5812972695409961886}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.115, y: 0.22}
   - {x: -0.115, y: -0.135}
+  - {x: -0.115, y: 0.22}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
