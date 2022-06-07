@@ -5,6 +5,7 @@ using UnityEngine;
 public class SecMenu : MonoBehaviour
 {
     public Item selectedItem;//记录当前选中的物品
+    public GameObject Player;
 
 
 
@@ -24,8 +25,31 @@ public class SecMenu : MonoBehaviour
 
         if(thisItem != null)
         {
-        thisItem.itemHeld--;
-        InventoryManager.RefreshItem();
+
+     
+            if(thisItem.itemName == "Potion")
+            {
+                if (thisItem.itemHeld >= 1)
+                {
+                    thisItem.itemHeld--;
+                Player.GetComponent<PlayerController>().usePotion();
+
+                }
+            }
+            if (thisItem.itemName == "BigPotion")
+            {
+                if (thisItem.itemHeld >= 1)
+                {
+                    thisItem.itemHeld--;
+                    Player.GetComponent<PlayerController>().useBigPotion();
+                }
+            }
+
+            if (thisItem.itemName == "RevivePotion")
+            {
+                Debug.Log("不能直接用复活药");
+            }
+            InventoryManager.RefreshItem();
         }
     }
 

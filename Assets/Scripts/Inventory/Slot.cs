@@ -15,12 +15,12 @@ public class Slot : MonoBehaviour
     public int slotID;//在背包中的次序
 
     public GameObject itemInSlot;//slot里面那个Item对象，包含按钮和文字
-    public GameObject SecMenu;//使用和丢弃按钮
+    public GameObject InventorySys;//使用和丢弃按钮
 
 
     void Start()
     {
-        SecMenu = GameObject.Find("SecMenu");
+        InventorySys = GameObject.Find("InventorySys");
     }
 
 
@@ -29,7 +29,7 @@ public class Slot : MonoBehaviour
     {
         InventoryManager.UpdateItemInfo(slotInfo);//背包界面显示描述
 
-        SecMenu.GetComponent<SecMenu>().selectedItem = slotItem;//选中当前格位，等待按丢弃或使用
+        InventorySys.GetComponent<SecMenu>().selectedItem = slotItem;//选中当前格位，等待按丢弃或使用
 
        // Debug.Log(SecMenu.GetComponent<SecMenu>().item.itemHeld);
     }
@@ -38,7 +38,7 @@ public class Slot : MonoBehaviour
     //物品栏中物品被点击，直接使用
     public void frontOnClicked()
         {
-        SecMenu.GetComponent<SecMenu>().useItem(slotItem);
+        InventorySys.GetComponent<SecMenu>().useItem(slotItem);
        
     }
 
