@@ -25,18 +25,31 @@ public class SecMenu : MonoBehaviour
 
         if(thisItem != null)
         {
-        thisItem.itemHeld--;
-        InventoryManager.RefreshItem();
+
+     
             if(thisItem.itemName == "Potion")
             {
+                if (thisItem.itemHeld >= 1)
+                {
+                    thisItem.itemHeld--;
                 Player.GetComponent<PlayerController>().usePotion();
+
+                }
             }
-            if (thisItem.itemName == "bigPotion")
+            if (thisItem.itemName == "BigPotion")
             {
-                Player.GetComponent<PlayerController>().useBigPotion();
+                if (thisItem.itemHeld >= 1)
+                {
+                    thisItem.itemHeld--;
+                    Player.GetComponent<PlayerController>().useBigPotion();
+                }
             }
 
-
+            if (thisItem.itemName == "RevivePotion")
+            {
+                Debug.Log("不能直接用复活药");
+            }
+            InventoryManager.RefreshItem();
         }
     }
 

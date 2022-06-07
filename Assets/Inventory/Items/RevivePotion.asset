@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e40e01d1ff70f4fa464a3d1e69e70f, type: 3}
-  m_Name: BigPotion
+  m_Name: RevivePotion
   m_EditorClassIdentifier: 
-  itemName: BigPotion
-  itemImage: {fileID: 21300000, guid: 86cfe173307bb3241ba9d6f7d13e3e83, type: 3}
-  itemHeld: 1
-  itemInfo: "\u8FD9\u662F\u4E00\u74F6\u5927\u836F= ="
-  equipt: 1
+  itemName: RevivePotion
+  itemImage: {fileID: 21300000, guid: 43a65f807e3c96d4aa855e675727592d, type: 3}
+  itemHeld: 0
+  itemInfo: 
+  equipt: 0
