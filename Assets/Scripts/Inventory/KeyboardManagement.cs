@@ -9,11 +9,12 @@ public class KeyboardManagement : MonoBehaviour
     public GameObject Bag;
     public Inventory mybag;
 
-    public GameObject SecMenu;
+    public GameObject InventorySys;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        InventorySys = GameObject.Find("InventorySys");
     }
 
     // Update is called once per frame
@@ -34,27 +35,27 @@ public class KeyboardManagement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SecMenu.GetComponent<SecMenu>().useItem(mybag.itemList[0]);
+            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[0]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SecMenu.GetComponent<SecMenu>().useItem(mybag.itemList[1]);
+            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[1]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SecMenu.GetComponent<SecMenu>().useItem(mybag.itemList[2]);
+            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[2]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SecMenu.GetComponent<SecMenu>().useItem(mybag.itemList[3]);
+            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[3]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            SecMenu.GetComponent<SecMenu>().useItem(mybag.itemList[4]);
+            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[4]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            SecMenu.GetComponent<SecMenu>().useItem(mybag.itemList[5]);
+            InventorySys.GetComponent<SecMenu>().useItem(mybag.itemList[5]);
         }
 
     }
