@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour {
     public GameObject Settings;
     public GameObject Tips;
+    [Space]
+    public GameObject PauseMenu;
 
     // Start is called before the first frame update
     void Start() {
@@ -21,13 +23,22 @@ public class Menu : MonoBehaviour {
 
     }
 
+    // 返回主菜单
     public void BackToMenu() {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 
     // 开始游戏
     public void Next() {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    // 重新开始游戏
+    public void Restart() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // 退出游戏
@@ -80,5 +91,17 @@ public class Menu : MonoBehaviour {
     // 提示完毕
     public void TipsFin() {
         Tips.SetActive(false);
+    }
+
+    // 游戏暂停
+    public void Pause() {
+        Time.timeScale = 0f;
+        PauseMenu.SetActive(true);
+    }
+
+    // 继续游戏
+    public void UnPause() {
+        PauseMenu.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
