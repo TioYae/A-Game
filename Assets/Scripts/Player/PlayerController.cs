@@ -30,10 +30,11 @@ public class PlayerController : MonoBehaviour {
     public GameObject sword; // 剑的触发器
     public GameObject popupDamage; // 伤害数字
     //public GameObject shield; // 盾牌的触发器
-    //public GameObject deathMenu; // 死亡菜单
-    //public GameObject pauseMenu; // 暂停菜单
-    //public GameObject passMenu; // 过关菜单
+    public GameObject deathMenu; // 死亡菜单
+    public GameObject pauseMenu; // 暂停菜单
+    public GameObject passMenu; // 过关菜单
     public GameObject DiaLogUI; // 剧情UI
+    public GameObject reburnUI; // 复活UI
     [Space]
     private Animator animator;
     private Animator animatorSword;
@@ -41,6 +42,9 @@ public class PlayerController : MonoBehaviour {
     private GroundSensor groundSensor; // 地面传感器
     private Sword sw; // 剑的类
     public Image bloodImage; // 血条
+    public Image energyImage; // 能量条
+    public Image expImage; // 经验条
+    public Text levelText; // 等级
     [Space]
     private bool grounded = false; // 是否在地面
     private int currentAttack = 0;
@@ -120,8 +124,16 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        // 更新血量
+        // 更新血量、能量条、经验条、等级
         bloodImage.transform.GetChild(0).GetComponent<Image>().fillAmount = blood / bloodMax;
+        //energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = ? / ?;
+        if (level < expLevel.Count)
+            expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[level];
+        else {
+            if (exp >= expLevel[expLevel.Count - 1]) expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
+            else expImage.transform.GetChild(0).GetComponent<Image>().fillAmount = exp / expLevel[expLevel.Count - 1];
+        }
+        levelText.text = "Lv." + level;
 
         // 持续更新攻击间隔时间
         timeSinceAttack += Time.deltaTime;
@@ -233,6 +245,7 @@ public class PlayerController : MonoBehaviour {
         }
         // 防御，输入鼠标右键
         else if (Input.GetMouseButtonDown(1)) {
+            if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
             this.tag = "Shield";
             attacking = false;
             defining = true;
@@ -398,13 +411,18 @@ public class PlayerController : MonoBehaviour {
 
     // 死亡
     public void Death() {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
-        rb.Sleep();
-        // 暂停游戏
-        Time.timeScale = 0f;
-        // 打开死亡菜单
-        //deathMenu.SetActive(true);
-        Debug.Log(this.name + " Dead");
+        if (/* todo：背包有复活药 */false) {
+            reburnUI.SetActive(true);
+        }
+        else {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
+            rb.Sleep();
+            // 暂停游戏
+            Time.timeScale = 0f;
+            // todo:打开死亡菜单
+            //deathMenu.SetActive(true);
+            Debug.Log(this.name + " Dead");
+        }
     }
 
     //Todo:检查问题
