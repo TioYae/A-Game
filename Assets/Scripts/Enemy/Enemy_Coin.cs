@@ -27,8 +27,7 @@ public class Enemy_Coin : Enemy {
             if (attackDealyTime <= 0) {
                 attackDealyTime = Random.Range(5f, 15f); // 设置5s到15s的攻击延迟
                 anim.SetTrigger("attack");
-                //anim.SetBool("attacking", true);
-                // todo 
+                anim.SetBool("attacking", true);
                 // 寻找战斗状态敌人中的血量最低的，进行回复
                 SetATK();
             }
@@ -78,13 +77,15 @@ public class Enemy_Coin : Enemy {
         int n = enemy.transform.childCount;
         float min = Mathf.Infinity;
         Enemy e = this.GetComponent<Enemy>();
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             float t = enemy.transform.GetChild(i).GetComponent<Enemy>().GetBlood();
             if (t != -1 && t < min) {
                 e = enemy.transform.GetChild(i).GetComponent<Enemy>();
                 min = t;
             }
         }
-        e.BloodUp(atk);
+        // 没血时不进行回复
+        if (e.GetBlood() > 0)
+            e.BloodUp(atk);
     }
 }
