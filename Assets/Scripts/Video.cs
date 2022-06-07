@@ -12,7 +12,6 @@ public class Video : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         video = GetComponent<VideoPlayer>();
-        Invoke(nameof(ButtonActive), 3f);
     }
 
     // Update is called once per frame
@@ -22,11 +21,7 @@ public class Video : MonoBehaviour {
                 VideoIsOver();
             }
         }
-    }
-
-    // 显示跳过按钮
-    void ButtonActive() {
-        skip.gameObject.SetActive(true);
+        if (!skip.IsActive() && video.time >= 3f) skip.gameObject.SetActive(true);
     }
 
     // 跳过视频

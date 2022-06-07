@@ -25,7 +25,7 @@ public class KeyboardManagement : MonoBehaviour
     }
     void OpenMyBag()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             Bag.SetActive(!Bag.activeSelf);
         }
