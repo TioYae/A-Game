@@ -13,12 +13,14 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float jumpForce = 5f; // 跳跃力
     [SerializeField] float atk = 10f; // 基础攻击力
     [SerializeField] float blood = 100f; // 血量
+    [SerializeField] float energy = 100f; // 瞬移需要的能量
     [SerializeField] int exp; // 经验值
     [SerializeField] int level; // 当前等级
     [SerializeField] List<float> atkLevel; // 每一级的攻击力
     [SerializeField] List<float> bloodLevel; // 每一级的血量上限
     [SerializeField] List<int> expLevel; // 升级需要的经验值
     private float bloodMax; // 最大血量
+    private float energyMax; // 最大能量
     private float normalSpeed; // 默认速度
     private Vector2 moveDirection; // 角色朝向
     [Space]
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour {
         atk = atkLevel[level - 1];
         blood = bloodLevel[level - 1];
         bloodMax = blood;
+        energyMax = energy;
         animator = GetComponent<Animator>();
         animatorSword = sword.GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -135,6 +138,9 @@ public class PlayerController : MonoBehaviour {
         }
         levelText.text = "Lv." + level;
 
+        // 更新能量
+        energyImage.transform.GetChild(0).GetComponent<Image>().fillAmount = energy / energyMax;
+
         // 持续更新攻击间隔时间
         timeSinceAttack += Time.deltaTime;
 
@@ -164,6 +170,8 @@ public class PlayerController : MonoBehaviour {
             float movePositionY = transform.position.y + moveDirection.y;
             Vector2 desPos = new Vector2(movePositionX, movePositionY);
             rb.MovePosition(desPos);
+            energy -= 30f;
+            //Debug.Log("energy: " + energy);
             isShift = false;
         }
     }
@@ -182,8 +190,8 @@ public class PlayerController : MonoBehaviour {
         }
 
         moveDirection = new Vector2(transform.localScale.x, 0).normalized;
-        // 按左Shift突进
-        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+        // 按下Shift瞬移
+        if (Input.GetKeyDown(KeyCode.LeftShift) && energy >= 30) {
             isShiftFinish = false;
             startShiftTime = shiftCD;
             isShift = true;
@@ -409,20 +417,36 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    // 死亡
-    public void Death() {
+    // 判断是否复活
+    public void DeathOrReburn() {
         if (/* todo：背包有复活药 */false) {
             reburnUI.SetActive(true);
         }
         else {
-            rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
-            rb.Sleep();
-            // 暂停游戏
-            Time.timeScale = 0f;
-            // todo:打开死亡菜单
-            //deathMenu.SetActive(true);
-            Debug.Log(this.name + " Dead");
+            Death();
         }
+    }
+
+    // 回血
+    public void BloodUp(float value) {
+        if (blood > 0) blood += value;
+    }
+
+    // 复活
+    public void Reburn() {
+        animator.SetTrigger("Reburn");
+        animator.SetBool("Death", false);
+    }
+
+    // 死亡
+    public void Death() {
+        rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
+        rb.Sleep();
+        // 暂停游戏
+        Time.timeScale = 0f;
+        // todo:打开死亡菜单
+        //deathMenu.SetActive(true);
+        Debug.Log(this.name + " Dead");
     }
 
     //Todo:检查问题
