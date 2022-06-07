@@ -317,6 +317,7 @@ public class PlayerController : MonoBehaviour {
     // 增加经验值
     public void ExpUp(int exp) {
         this.exp += exp;
+        //Debug.Log(this.exp);
         if (level < expLevel.Count) {
             if (this.exp >= expLevel[level]) LevelUp();
         }
