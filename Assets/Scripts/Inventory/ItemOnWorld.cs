@@ -23,6 +23,8 @@ public class ItemOnWorld : MonoBehaviour
     //将道具加入背包
     public void AddNewItem()
     {
+        if(thisItem.itemHeld< thisItem.maxHeld)
+        { 
         thisItem.itemHeld += 1;
         if (!playerInventory.itemList.Contains(thisItem))
         {
@@ -36,6 +38,7 @@ public class ItemOnWorld : MonoBehaviour
                     playerInventory.itemList[i] = thisItem;
                     break;
                 }
+        }
         }
         InventoryManager.RefreshItem();
     }

@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour {
     public Image picture; // 初见动画
     public GameObject door; // 真通关门
     public GameObject doorClose; // 关着的通关门
+    public GameObject DialogUI;
     [Space]
     public GameObject leftPosition; // 巡逻区域左端点
     public GameObject rightPosition; // 巡逻区域右端点
@@ -225,6 +226,7 @@ public class Enemy : MonoBehaviour {
     void Death() {
         player.GetComponent<PlayerController>().ExpUp(exp);
         if (isBoss) {
+            DialogUI.SetActive(true);//boss死了触发剧情对话
             door.SetActive(true);
             doorClose.SetActive(false);
         }
