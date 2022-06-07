@@ -5,6 +5,7 @@ using UnityEngine;
 public class SecMenu : MonoBehaviour
 {
     public Item selectedItem;//记录当前选中的物品
+    public GameObject Player;
 
 
 
@@ -26,6 +27,11 @@ public class SecMenu : MonoBehaviour
         {
         thisItem.itemHeld--;
         InventoryManager.RefreshItem();
+            if(thisItem.itemName == "Potion")
+            {
+                Player.GetComponent<PlayerController>().usePosion();
+            }
+
         }
     }
 

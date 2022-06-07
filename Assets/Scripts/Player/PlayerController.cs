@@ -451,5 +451,17 @@ public class PlayerController : MonoBehaviour {
     // ²¥·ÅBGM
     public void BGMPlay() {
         bgm.Play();
+
     }
+
+    //ÓÃÒ© byÀµ½­
+    public void usePosion()
+    {
+        blood += 10;
+        if (blood >= 100)
+            blood = 100;
+    }
+
+
+
 }
