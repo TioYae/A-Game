@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 653386005453641396}
   - component: {fileID: 653386005453641397}
   m_Layer: 13
-  m_Name: item_sword
+  m_Name: item_bigPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: df03211313565c20ab3d04f51bea5707, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86cfe173307bb3241ba9d6f7d13e3e83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -117,7 +117,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.21, y: 4.97}
+    oldSize: {x: 2.42, y: 3.55}
     newSize: {x: 3.21, y: 4.97}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

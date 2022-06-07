@@ -29,8 +29,13 @@ public class SecMenu : MonoBehaviour
         InventoryManager.RefreshItem();
             if(thisItem.itemName == "Potion")
             {
-                Player.GetComponent<PlayerController>().usePosion();
+                Player.GetComponent<PlayerController>().usePotion();
             }
+            if (thisItem.itemName == "bigPotion")
+            {
+                Player.GetComponent<PlayerController>().useBigPotion();
+            }
+
 
         }
     }

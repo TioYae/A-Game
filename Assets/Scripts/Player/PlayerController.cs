@@ -455,9 +455,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     //ÓÃÒ© byÀµ½­
-    public void usePosion()
+    public void usePotion()
     {
         blood += 10;
+        if (blood >= 100)
+            blood = 100;
+    }
+
+    public void useBigPotion()
+    {
+        blood += 50;
         if (blood >= 100)
             blood = 100;
     }
