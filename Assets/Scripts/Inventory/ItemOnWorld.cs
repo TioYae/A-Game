@@ -29,19 +29,21 @@ public class ItemOnWorld : MonoBehaviour
         if(thisItem.itemHeld< thisItem.maxHeld)
         { 
         thisItem.itemHeld += 1;
+        }
         if (!playerInventory.itemList.Contains(thisItem))
         {
                 // playerInventory.itemList.Add(thisItem);
                 thisItem.itemHeld =  1;
             //InventoryManager.CreateNewItem(thisItem);
          
+                //在背包中找一个空位
             for (int i = 0; i < playerInventory.itemList.Count; i++)
                 if (playerInventory.itemList[i] == null)
                 {
                     playerInventory.itemList[i] = thisItem;
                     break;
                 }
-        }
+      
         }
         InventoryManager.RefreshItem();
     }

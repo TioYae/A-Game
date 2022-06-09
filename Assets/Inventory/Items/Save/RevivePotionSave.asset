@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e40e01d1ff70f4fa464a3d1e69e70f, type: 3}
+  m_Name: RevivePotionSave
+  m_EditorClassIdentifier: 
+  itemName: RevivePotion
+  itemImage: {fileID: 21300000, guid: 43a65f807e3c96d4aa855e675727592d, type: 3}
+  itemHeld: 2
+  maxHeld: 2
+  itemInfo: "\u6B7B\u4EA1\u540E\u4F7F\u7528\u5B83\u6765\u590D\u751F"
+  equipt: 0
