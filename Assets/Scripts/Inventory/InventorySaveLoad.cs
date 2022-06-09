@@ -38,7 +38,15 @@ public class InventorySaveLoad : MonoBehaviour
         InventoryManager.RefreshItem();
     }
 
+    //É¾³ý´æµµ
+    public void DeleteInventorySave()
+    {
+        PotionSave.itemHeld = 0;
+        BigPotionSave.itemHeld = 0;
+        RevivePotionSave.itemHeld = 0;
+        InventorySave.itemList.Clear();
 
+    }
 
     void Start()
     {
