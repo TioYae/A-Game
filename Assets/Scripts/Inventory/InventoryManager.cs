@@ -84,7 +84,7 @@ public class InventoryManager : MonoBehaviour
                     instance.myBag.itemList[i] = null;
 
                     //CreateNewItem(instance.myBag.itemList[i]);
-                    instance.slots.Add(Instantiate(instance.emptySlot));
+            instance.slots.Add(Instantiate(instance.emptySlot));
             instance.slots[i].transform.SetParent(instance.slotGrid.transform);
             instance.slots[i].transform.localScale = new Vector3(1, 1, 1);
             instance.slots[i].GetComponent<Slot>().slotID = i;

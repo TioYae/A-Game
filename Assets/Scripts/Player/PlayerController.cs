@@ -78,7 +78,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject theBird;
     private Vector2 playReBoundDirect;
     public float reBoundForce;
-    public GameObject InventorySys;
+    public GameObject inventorySys;
+
+    public GameObject bag;
+
     // Use this for initialization
     void Start() {
         Load();
@@ -92,13 +95,15 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
-        InventorySys = GameObject.Find("InventorySys");
+        inventorySys = GameObject.Find("InventorySys");
+
+
     }
 
     // Update is called once per frame
     void Update() {
-        // 进剧情时禁止玩家操控
-        if (DiaLogUI.activeSelf) {
+        // 进剧情或开背包时禁止玩家操控
+        if (DiaLogUI.activeSelf || bag.activeSelf) {
             controllable = false;
             // 取消速度
             rb.velocity = new Vector2(0, 0);
@@ -217,8 +222,9 @@ public class PlayerController : MonoBehaviour {
         // 正在地面攻击或者正在防御不能移动
         if ((!attacking && !defining) || (attacking && !grounded))
             rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
-        /*else
-            rb.velocity = new Vector2(0, rb.velocity.y);*/
+        else if (defining)
+            rb.velocity = new Vector2(0, rb.velocity.y);
+
         // 攻击，输入鼠标左键
         if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
             if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
@@ -266,7 +272,6 @@ public class PlayerController : MonoBehaviour {
         }
         // 防御，输入鼠标右键
         else if (Input.GetMouseButtonDown(1)) {
-            if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
             this.tag = "Shield";
             attacking = false;
             defining = true;
@@ -349,9 +354,10 @@ public class PlayerController : MonoBehaviour {
         bloodMax = blood;
     }
 
-    // 攻击完了
+    // 攻击完了，取消防御状态
     public void AttackFinished() {
         attacking = false;
+        defining = false;
     }
 
     // 受伤
@@ -361,6 +367,11 @@ public class PlayerController : MonoBehaviour {
         animator.SetTrigger("Hurt");
         animator.SetBool("Hurting", true);
         animatorSword.SetTrigger("hurt");
+        // 玩家伤害数字位置补偿
+        Vector2 position = new Vector2(this.transform.position.x, this.transform.position.y + 0.5f);
+        // 伤害数字
+        GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
+        obj.GetComponent<DamagePopup>().value = hurtBlood;
         if (hurtBlood >= blood) {
             blood = 0;
             // 切换死亡动画
@@ -434,13 +445,12 @@ public class PlayerController : MonoBehaviour {
 
     // 显示死亡菜单
     public void DeathOrReburn() {
-        /*if (InventorySys.GetComponent<InventorySys>().findRevivePotion()) {
+        if (inventorySys.GetComponent<InventorySys>().findRevivePotion()) {
             reburnUI.SetActive(true);
-            Time.timeScale = 0f;
         }
-        else {*/
+        else {
             Death();
-        //}
+        }
     }
 
     // 回血
@@ -458,8 +468,10 @@ public class PlayerController : MonoBehaviour {
 
     // 死亡
     public void Death() {
+        Time.timeScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
         rb.Sleep();
+
         // 暂停游戏
         Time.timeScale = 0f;
         deathMenu.SetActive(true);
@@ -481,7 +493,7 @@ public class PlayerController : MonoBehaviour {
 
     // 存档
     public void Save() {
-        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1);
+        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1, inventorySys.GetComponent<InventorySys>().GetPackages());
 
         var path = Path.Combine(Application.dataPath, "Savedata");
         DirectoryInfo dir = new DirectoryInfo(path);
@@ -508,6 +520,7 @@ public class PlayerController : MonoBehaviour {
         if (!dir.Exists) {
             level = 1;
             exp = 0;
+            inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item> { });
             return;
         }
 
@@ -516,6 +529,7 @@ public class PlayerController : MonoBehaviour {
         if (!fileInfo.Exists) {
             level = 1;
             exp = 0;
+            inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item> { });
             return;
         }
 
@@ -523,6 +537,7 @@ public class PlayerController : MonoBehaviour {
         SaveData saveData = JsonUtility.FromJson<SaveData>(str);
         level = saveData.GetLevel();
         exp = saveData.GetExp();
+        inventorySys.GetComponent<InventorySys>().SetPackage(saveData.GetPackage());
     }
 
     // 播放BGM
@@ -544,6 +559,8 @@ public class PlayerController : MonoBehaviour {
             blood = 100;
     }
 
-
-
+    // 设置死亡动画留存
+    public void SetUselessTrigger() {
+        animator.SetTrigger("Useless");
+    }
 }

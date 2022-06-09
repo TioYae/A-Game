@@ -36,7 +36,7 @@ public class InventorySys : MonoBehaviour
     {
         Debug.Log("reviveBtnclicked");
 
-        useItem(RevivePotion);
+        UseRevivePotion();
         Player.GetComponent<PlayerController>().reburnUI.SetActive(false);
         return;
     }
@@ -61,22 +61,28 @@ public class InventorySys : MonoBehaviour
                 if (thisItem.itemHeld >= 1)
                 {
                     thisItem.itemHeld--;
-                    Player.GetComponent<PlayerController>().BloodUp(50f);
+                    Player.GetComponent<PlayerController>().BloodUp(2000);
                 }
             }
 
-            if (thisItem.itemName == "RevivePotion")
-            {
-                //调用
-                thisItem.itemHeld--;
-                Player.GetComponent<PlayerController>().BloodUp(20f);
-                Player.GetComponent<PlayerController>().Reburn();
 
-                Debug.Log("不能直接用复活药");
-            }
             InventoryManager.RefreshItem();
         }
     }
+    public void UseRevivePotion()
+    {
+
+            //调用
+       RevivePotion.itemHeld--;
+        InventoryManager.RefreshItem();
+        Player.GetComponent<PlayerController>().BloodUp(20f);
+        Player.GetComponent<PlayerController>().Reburn();
+    
+        // Debug.Log("不能直接用复活药");
+
+    }
+
+
 
     public void throwItem(Item thisItem)
     {
@@ -88,43 +94,26 @@ public class InventorySys : MonoBehaviour
     }
 
 
+    public void SetPackage(List<Item> packages) {
+        myBag.SetPackage(packages);
+    }
 
-
-
+    public List<Item> GetPackages() {
+        return myBag.GetPackage();
+    }
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.Find("Player");
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    }
-
-
-    public int GetItemHeld(Item item)
-    {
-        return item.itemHeld;
-    }
-
-    public void SetItemHeld(Item item, int held)
-    {
-        item.itemHeld = held;
-    }
-
-    public List<Item> GetBagList(Inventory inventory)
-    {
-        return inventory.itemList;
-    }
-
-    public void SetBagList(Inventory inventory, int i, Item item)
-    {
-        inventory.itemList[i] = item;
     }
 
 

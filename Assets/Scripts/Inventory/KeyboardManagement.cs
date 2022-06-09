@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//按I开关背包
+//按B开关背包
 
 public class KeyboardManagement : MonoBehaviour
 {
@@ -27,6 +27,8 @@ public class KeyboardManagement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
+            InventorySys.GetComponent<InventorySys>().selectedItem = null;
+            InventoryManager.UpdateItemInfo("描述");
             Bag.SetActive(!Bag.activeSelf);
         }
 

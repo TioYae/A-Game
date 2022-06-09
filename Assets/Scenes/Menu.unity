@@ -1959,3 +1959,4 @@ MonoBehaviour:
   Settings: {fileID: 664768962}
   Tips: {fileID: 723948044}
   PauseMenu: {fileID: 0}
+  mybag: {fileID: 11400000, guid: de187948c1478ba4c97b29ae13c21fe2, type: 2}
