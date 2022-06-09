@@ -79,6 +79,9 @@ public class PlayerController : MonoBehaviour {
     private Vector2 playReBoundDirect;
     public float reBoundForce;
     public GameObject InventorySys;
+  
+    public GameObject Bag;
+
     // Use this for initialization
     void Start() {
         Load();
@@ -93,6 +96,8 @@ public class PlayerController : MonoBehaviour {
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
         InventorySys = GameObject.Find("InventorySys");
+
+
     }
 
     // Update is called once per frame
@@ -220,7 +225,12 @@ public class PlayerController : MonoBehaviour {
         /*else
             rb.velocity = new Vector2(0, rb.velocity.y);*/
         // 攻击，输入鼠标左键
-        if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
+
+
+
+        //lj    
+   // if (!InventorySys.GetComponent<KeyboardManagement>().Bag.activeSelf) { 
+        if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f && !Bag.activeSelf) {
             if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
             this.tag = "Player";
             attacking = true;
@@ -256,7 +266,7 @@ public class PlayerController : MonoBehaviour {
                 default:
                     break;
             }
-
+         
             // 将第n下攻击的Trigger选中
             animator.SetTrigger("Attack" + currentAttack);
             //animatorSword.SetTrigger("Attack" + currentAttack);
@@ -264,6 +274,7 @@ public class PlayerController : MonoBehaviour {
             // 重置攻击间隔
             timeSinceAttack = 0.0f;
         }
+   //  }
         // 防御，输入鼠标右键
         else if (Input.GetMouseButtonDown(1)) {
             if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
@@ -434,13 +445,13 @@ public class PlayerController : MonoBehaviour {
 
     // 显示死亡菜单
     public void DeathOrReburn() {
-        /*if (InventorySys.GetComponent<InventorySys>().findRevivePotion()) {
+        if (InventorySys.GetComponent<InventorySys>().findRevivePotion()) {
             reburnUI.SetActive(true);
-            Time.timeScale = 0f;
+          
         }
-        else {*/
+        else {
             Death();
-        //}
+        }
     }
 
     // 回血
@@ -458,8 +469,10 @@ public class PlayerController : MonoBehaviour {
 
     // 死亡
     public void Death() {
+        Time.timeScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
         rb.Sleep();
+
         // 暂停游戏
         Time.timeScale = 0f;
         deathMenu.SetActive(true);

@@ -12,8 +12,11 @@ public class ItemOnWorld : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
+        {
             AddNewItem();
-        Destroy(gameObject);
+            Destroy(gameObject);
+            Debug.Log("Item Destroyed");
+        }
     }
 
 
@@ -28,8 +31,8 @@ public class ItemOnWorld : MonoBehaviour
         thisItem.itemHeld += 1;
         if (!playerInventory.itemList.Contains(thisItem))
         {
-            // playerInventory.itemList.Add(thisItem);
-
+                // playerInventory.itemList.Add(thisItem);
+                thisItem.itemHeld =  1;
             //InventoryManager.CreateNewItem(thisItem);
          
             for (int i = 0; i < playerInventory.itemList.Count; i++)

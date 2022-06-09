@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour {
     public GameObject Tips;
     [Space]
     public GameObject PauseMenu;
+    public Inventory mybag;
 
     // Start is called before the first frame update
     void Start() {
@@ -86,6 +87,8 @@ public class Menu : MonoBehaviour {
             fileInfo.Delete();
         Tips.SetActive(true);
         Invoke(nameof(TipsFin), 5f);
+        mybag.itemList.Clear();
+        
     }
 
     // Ã· æÕÍ±œ
