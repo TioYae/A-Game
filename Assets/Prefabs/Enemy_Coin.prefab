@@ -493,9 +493,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8d293dd71ebfd468fcac8b1b790725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blood: 350
+  blood: 300
   atk: 0.1
   exp: 5
+  level: 0
+  atkLevel:
+  - 0.06
+  - 0.07
+  - 0.08
+  - 0.09
+  - 0.1
+  - 0.11
+  - 0.12
+  - 0.13
+  - 0.14
+  - 0.15
+  bloodLevel:
+  - 100
+  - 130
+  - 180
+  - 250
+  - 350
+  - 480
+  - 630
+  - 790
+  - 950
+  - 1200
+  expLevel: 02000000050000000a000000120000001e0000002d000000410000005a000000780000009b000000
   moveSpeed: 3.3
   maxLeave: 15
   minDistance: 0.75
@@ -503,12 +527,12 @@ MonoBehaviour:
   moveDealyTime: 0
   attackDealyTime: 0
   enemyName: "\u300C\u661F\u5E01\u300D"
-  enemyLevel: Lv.1
   isAnim: 0
   isBoss: 0
   picture: {fileID: 0}
   door: {fileID: 0}
   doorClose: {fileID: 0}
+  DialogUI: {fileID: 0}
   leftPosition: {fileID: 1168274127425827212}
   rightPosition: {fileID: 1168274128260720500}
   player: {fileID: 0}

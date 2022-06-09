@@ -9,6 +9,10 @@ public class Enemy : MonoBehaviour {
     public float blood; // 血量
     public float atk; // 攻击力
     public int exp; // 经验值
+    public int level; // 等级
+    public List<float> atkLevel; // 每一级的攻击力
+    public List<float> bloodLevel; // 每一级的血量上限
+    public List<int> expLevel; // 升级需要的经验值
     public float moveSpeed = 3.3f; // 移速
     public float maxLeave = 15f; // 离开巡逻区域最远距离
     public float minDistance; // 攻击范围最小值
@@ -23,7 +27,6 @@ public class Enemy : MonoBehaviour {
     public float attackDealyTime; // 攻击延迟
     protected bool readyToAttack = false; // 玩家是否在攻击范围内
     public string enemyName; // 怪物名字
-    public string enemyLevel; // 怪物等级
     [Space]
     public bool isAnim; // 是否播放初见动画
     public bool isBoss; // 是否BOSS，是BOSS要打完才开门
@@ -50,6 +53,9 @@ public class Enemy : MonoBehaviour {
     protected AudioSource audioSource;
 
     protected virtual void Start() {
+        atk = atkLevel[level - 1];
+        blood = bloodLevel[level - 1];
+        exp = expLevel[level - 1];
         bloodMax = blood;
         left_x = leftPosition.transform.position.x;
         right_x = rightPosition.transform.position.x;
@@ -59,7 +65,7 @@ public class Enemy : MonoBehaviour {
         audioSource = this.GetComponent<AudioSource>();
         // 设置名字与等级
         enemyStatus.transform.GetChild(0).GetComponent<Text>().text = enemyName;
-        enemyStatus.transform.GetChild(1).GetComponent<Text>().text = enemyLevel;
+        enemyStatus.transform.GetChild(1).GetComponent<Text>().text = "Lv. " + level;
     }
 
     protected virtual void Update() {

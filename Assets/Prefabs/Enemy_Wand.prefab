@@ -357,6 +357,30 @@ MonoBehaviour:
   blood: 300
   atk: 8
   exp: 3
+  level: 0
+  atkLevel:
+  - 8
+  - 10
+  - 13
+  - 16
+  - 20
+  - 24
+  - 28
+  - 32
+  - 36
+  - 40
+  bloodLevel:
+  - 100
+  - 130
+  - 180
+  - 250
+  - 350
+  - 480
+  - 630
+  - 790
+  - 950
+  - 1200
+  expLevel: 02000000050000000a000000120000001e0000002d000000410000005a000000780000009b000000
   moveSpeed: 3.3
   maxLeave: 15
   minDistance: 0.75
@@ -364,12 +388,12 @@ MonoBehaviour:
   moveDealyTime: 0
   attackDealyTime: 0
   enemyName: "\u300C\u6743\u6756\u300D"
-  enemyLevel: Lv.1
   isAnim: 0
   isBoss: 0
   picture: {fileID: 0}
   door: {fileID: 0}
   doorClose: {fileID: 0}
+  DialogUI: {fileID: 0}
   leftPosition: {fileID: 135947532}
   rightPosition: {fileID: 649698367}
   player: {fileID: 0}
