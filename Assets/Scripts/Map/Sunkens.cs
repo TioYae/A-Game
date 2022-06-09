@@ -22,7 +22,7 @@ public class Sunkens : MonoBehaviour
             }
             else if (hurtCD <= 0) {
                 PlayerController player = playerCollider.gameObject.GetComponent<PlayerController>();
-                player.Hurt(atkSunkens);
+                player.Hurt(atkSunkens, true);
                 hurtCD = tempHurtCD;
             }
         }

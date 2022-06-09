@@ -28,7 +28,7 @@ public class Sword : MonoBehaviour {
                 if((this.transform.parent.position.x - collision.transform.position.x) * collision.transform.localScale.x < 0) {
                     PlayerController player = collision.gameObject.GetComponent<PlayerController>();
                     player.tag = "Player";
-                    player.Hurt(atk);
+                    player.Hurt(atk, true);
                     // Íæ¼ÒÉËº¦Êý×ÖÎ»ÖÃ²¹³¥
                     Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 0.5f);
                     // ÉËº¦Êý×Ö
@@ -47,7 +47,7 @@ public class Sword : MonoBehaviour {
             else if (collision.gameObject.tag.Equals("Player")) {
                 PlayerController player = collision.gameObject.GetComponent<PlayerController>();
                 player.tag = "Player";
-                player.Hurt(atk);
+                player.Hurt(atk, true);
                 // Íæ¼ÒÉËº¦Êý×ÖÎ»ÖÃ²¹³¥
                 Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 0.5f);
                 // ÉËº¦Êý×Ö

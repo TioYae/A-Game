@@ -262,7 +262,7 @@ MonoBehaviour:
   blood: 500
   atk: 5
   exp: 2
-  level: 0
+  level: 1
   atkLevel:
   - 8
   - 10

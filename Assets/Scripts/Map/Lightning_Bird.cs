@@ -53,7 +53,7 @@ public class Lightning_Bird : MonoBehaviour {
         else if (collision.gameObject.tag == "Player" || collision.gameObject.tag.Equals("Shield")) {
             //获取到玩家脚本
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            player.Hurt(atkBird);
+            player.Hurt(atkBird, true);
             Destroy(gameObject);
         }
     }

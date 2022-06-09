@@ -361,12 +361,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     // 受伤
-    public void Hurt(float hurtBlood) {
+    public void Hurt(float hurtBlood, bool animPlay) {
         if (blood == 0) return;
 
-        animator.SetTrigger("Hurt");
-        animator.SetBool("Hurting", true);
-        animatorSword.SetTrigger("hurt");
+        if (animPlay) {
+            animator.SetTrigger("Hurt");
+            animator.SetBool("Hurting", true);
+            animatorSword.SetTrigger("hurt");
+        }
         // 玩家伤害数字位置补偿
         Vector2 position = new Vector2(this.transform.position.x, this.transform.position.y + 0.5f);
         // 伤害数字
@@ -379,7 +381,6 @@ public class PlayerController : MonoBehaviour {
             animator.SetTrigger("Death");
             audioSource.clip = death1;
             audioSource.Play();
-            DeathOrReburn();
         }
         else {
             blood -= hurtBlood;
@@ -387,7 +388,7 @@ public class PlayerController : MonoBehaviour {
                 audioSource.clip = hurt1;
             else
                 audioSource.clip = hurt2;
-            audioSource.Play();
+            if (animPlay) audioSource.Play();
         }
     }
 
@@ -426,12 +427,7 @@ public class PlayerController : MonoBehaviour {
 
     // 烧伤
     void HurtByFire() {
-        blood -= fireHurt;
-        // 玩家伤害数字位置补偿
-        Vector2 position = new Vector2(this.transform.position.x, this.transform.position.y + 0.5f);
-        // 伤害数字
-        GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
-        obj.GetComponent<DamagePopup>().value = fireHurt;
+        Hurt(fireHurt, false);
         // 持续时间已到，取消烧伤状态
         if (fireStatusTime >= fireTime) {
             fire = false;
@@ -468,10 +464,6 @@ public class PlayerController : MonoBehaviour {
 
     // 死亡
     public void Death() {
-        Time.timeScale = 0f;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
-        rb.Sleep();
-
         // 暂停游戏
         Time.timeScale = 0f;
         deathMenu.SetActive(true);

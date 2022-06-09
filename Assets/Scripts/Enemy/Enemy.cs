@@ -25,15 +25,11 @@ public class Enemy : MonoBehaviour {
     protected float leave; // 离开巡逻区域距离
     public float moveDealyTime; // 巡逻延迟
     public float attackDealyTime; // 攻击延迟
-    protected bool readyToAttack = false; // 玩家是否在攻击范围内
+    public bool readyToAttack = false; // 玩家是否在攻击范围内
     public string enemyName; // 怪物名字
     [Space]
     public bool isAnim; // 是否播放初见动画
-    public bool isBoss; // 是否BOSS，是BOSS要打完才开门
     public Image picture; // 初见动画
-    public GameObject door; // 真通关门
-    public GameObject doorClose; // 关着的通关门
-    public GameObject DialogUI;
     [Space]
     public GameObject leftPosition; // 巡逻区域左端点
     public GameObject rightPosition; // 巡逻区域右端点
@@ -162,7 +158,7 @@ public class Enemy : MonoBehaviour {
         // 在攻击范围内，准备攻击
         else if (Mathf.Abs(player.transform.position.x - this.transform.position.x) <= maxDistance) {
             follow = false;
-            readyToAttack = true;
+            if (blood > 0) readyToAttack = true;
             SetVelocity(0);
             anim.SetBool("running", false);
         }
@@ -170,7 +166,7 @@ public class Enemy : MonoBehaviour {
 
     // 受伤反击
     public void CounterAttack() {
-        if (Random.Range(0, 2) == 0) {
+        if (Random.Range(0, 2) == 0 && blood > 0) {
             readyToAttack = true;
             attackDealyTime = 0;
         }
@@ -182,9 +178,10 @@ public class Enemy : MonoBehaviour {
 
         anim.SetTrigger("hurt");
         if (hurtBlood >= blood) {
+            blood = 0;
+            readyToAttack = false;
             rb.constraints = RigidbodyConstraints2D.FreezeAll; // 冻结所有轴，防止取消碰撞体后物体下坠
             rb.Sleep();
-            blood = 0;
             anim.SetBool("death", true);
             audioSource.clip = death1;
             audioSource.Play();
@@ -231,12 +228,6 @@ public class Enemy : MonoBehaviour {
     // 死亡
     void Death() {
         player.GetComponent<PlayerController>().ExpUp(exp);
-        if (isBoss) {
-            if (DialogUI != null)
-                DialogUI.SetActive(true);//boss死了触发剧情对话
-            door.SetActive(true);
-            doorClose.SetActive(false);
-        }
         Destroy(enemyStatus);
         Destroy(this.gameObject);
     }
