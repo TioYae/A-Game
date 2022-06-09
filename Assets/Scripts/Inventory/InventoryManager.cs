@@ -90,8 +90,7 @@ public class InventoryManager : MonoBehaviour {
             instance.Frontslots[i].transform.localScale = new Vector3(1, 1, 1);
 
             instance.Frontslots[i].GetComponent<Slot>().slotID = i;
-            if (i < instance.myBag.itemList.Count)
-                instance.Frontslots[i].GetComponent<Slot>().SetupSlot(instance.myBag.itemList[i]);
+            instance.Frontslots[i].GetComponent<Slot>().SetupSlot(instance.myBag.itemList[i]);
         }
 
 

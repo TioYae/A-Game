@@ -441,6 +441,8 @@ public class PlayerController : MonoBehaviour {
 
     // 显示死亡菜单
     public void DeathOrReburn() {
+        // 取消Death的trigger
+        animator.SetTrigger("Useless");
         if (inventorySys.GetComponent<InventorySys>().findRevivePotion()) {
             reburnUI.SetActive(true);
         }
@@ -549,10 +551,5 @@ public class PlayerController : MonoBehaviour {
         blood += 50;
         if (blood >= 100)
             blood = 100;
-    }
-
-    // 设置死亡动画留存
-    public void SetUselessTrigger() {
-        animator.SetTrigger("Useless");
     }
 }
