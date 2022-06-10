@@ -520,19 +520,16 @@ MonoBehaviour:
   - 950
   - 1200
   expLevel: 02000000050000000a000000120000001e0000002d000000410000005a000000780000009b000000
-  moveSpeed: 3.3
+  moveSpeed: 4.2
   maxLeave: 15
   minDistance: 0.75
   maxDistance: 6.5
   moveDealyTime: 0
   attackDealyTime: 0
+  readyToAttack: 0
   enemyName: "\u300C\u661F\u5E01\u300D"
   isAnim: 0
-  isBoss: 0
   picture: {fileID: 0}
-  door: {fileID: 0}
-  doorClose: {fileID: 0}
-  DialogUI: {fileID: 0}
   leftPosition: {fileID: 1168274127425827212}
   rightPosition: {fileID: 1168274128260720500}
   player: {fileID: 0}

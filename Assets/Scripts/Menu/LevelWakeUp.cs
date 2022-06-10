@@ -42,7 +42,8 @@ public class LevelWakeUp : MonoBehaviour {
         foreach (Button i in levels) {
             int sc;
             int.TryParse(i.name.Substring(6, 1), out sc);
-            if (sc <= scene) {
+            // scene - 2是去除Menu和ChooseLevel场景，Scene_00场景标号为2
+            if (sc <= scene - 2) {
                 i.transform.GetChild(1).gameObject.SetActive(false);
                 i.interactable = true;
             }

@@ -514,7 +514,7 @@ public class PlayerController : MonoBehaviour {
         if (!dir.Exists) {
             level = 1;
             exp = 0;
-            inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item> { });
+            inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
             return;
         }
 
@@ -523,7 +523,7 @@ public class PlayerController : MonoBehaviour {
         if (!fileInfo.Exists) {
             level = 1;
             exp = 0;
-            inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item> { });
+            inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
             return;
         }
 

@@ -1939,11 +1939,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6687119722855167161, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6687119723157996255, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7210077490493477533, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_IsActive
@@ -3321,7 +3321,7 @@ PrefabInstance:
     - target: {fileID: 7485205383028220248, guid: f7b4423a89e7ad8439265af2011a96c9, type: 3}
       propertyPath: DialogUI
       value: 
-      objectReference: {fileID: 812260191}
+      objectReference: {fileID: 0}
     - target: {fileID: 7485205383028220248, guid: f7b4423a89e7ad8439265af2011a96c9, type: 3}
       propertyPath: boss.Array.size
       value: 1
@@ -35154,6 +35154,7 @@ MonoBehaviour:
   - {fileID: 1185841384}
   - {fileID: 1519904190}
   - {fileID: 812260191}
+  - {fileID: 24313224}
 --- !u!328 &1988613814
 VideoPlayer:
   m_ObjectHideFlags: 0
