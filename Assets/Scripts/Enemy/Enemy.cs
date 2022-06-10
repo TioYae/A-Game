@@ -209,6 +209,7 @@ public class Enemy : MonoBehaviour {
     public void LostPlayer() {
         finalDistance = 0f;
         found = false;
+        readyToAttack = false;
     }
 
     // 给星币返回血量，非战斗状态时返回-1
