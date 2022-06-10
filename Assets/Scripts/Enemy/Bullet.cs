@@ -22,14 +22,14 @@ public class Bullet : MonoBehaviour {
                 player.tag = "Player";
                 player.Hurt(atk, true);
                 // Íæ¼ÒÉËº¦Êý×ÖÎ»ÖÃ²¹³¥
-                Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 0.5f);
+                Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 1f);
                 // ÉËº¦Êý×Ö
                 GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
                 obj.GetComponent<DamagePopup>().value = atk;
             }
             else {
                 // Íæ¼ÒÉËº¦Êý×ÖÎ»ÖÃ²¹³¥
-                Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 0.5f);
+                Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 1f);
                 // ÉËº¦Êý×Ö
                 GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
                 obj.GetComponent<DamagePopup>().value = 0;
@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour {
             player.tag = "Player";
             player.Hurt(atk, true);
             // Íæ¼ÒÉËº¦Êý×ÖÎ»ÖÃ²¹³¥
-            Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 0.5f);
+            Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 1f);
             // ÉËº¦Êý×Ö
             GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
             obj.GetComponent<DamagePopup>().value = atk;

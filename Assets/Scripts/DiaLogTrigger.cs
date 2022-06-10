@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DiaLogTrigger : MonoBehaviour {
     public GameObject DiaLogUI;
+    public GameObject wall;
     public bool isTalk = false;
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class DiaLogTrigger : MonoBehaviour {
         if (!isTalk && Input.GetKey(KeyCode.F)) {
             if (collision.tag == "Player") {
                 DiaLogUI.SetActive(true);
+                Destroy(wall.gameObject);
                 isTalk = true;
             }
         }

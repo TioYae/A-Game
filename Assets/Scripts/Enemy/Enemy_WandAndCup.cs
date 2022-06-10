@@ -81,13 +81,21 @@ public class Enemy_WandAndCup : Enemy {
         //obj.transform.parent = this.transform;
         obj.transform.position = this.transform.position;
         Rigidbody2D bulletRb = obj.GetComponent<Rigidbody2D>();
+
+        float speed = 4f;
+        float x1 = player.transform.position.x, y1 = player.transform.position.y + 1f; // 玩家位置补偿
+        float x2 = this.transform.position.x, y2 = this.transform.position.y;
+        float s = Mathf.Sqrt(Mathf.Pow(x1 - x2, 2) + Mathf.Pow(y1 - y2, 2));
+        float x = speed * (x1 - x2) / s, y = speed * (y1 - y2) / s;
         // 调整方向
         if (transform.localScale.x < 0) {
             obj.transform.localScale = new Vector3(-obj.transform.localScale.x, obj.transform.localScale.y, obj.transform.localScale.z);
-            bulletRb.velocity = new Vector2(-4, 0);
+            //bulletRb.velocity = new Vector2(-4, 0);
+            bulletRb.velocity = new Vector2(x, y);
         }
         else {
-            bulletRb.velocity = new Vector2(4, 0);
+            //bulletRb.velocity = new Vector2(4, 0);
+            bulletRb.velocity = new Vector2(x, y);
         }
 
     }

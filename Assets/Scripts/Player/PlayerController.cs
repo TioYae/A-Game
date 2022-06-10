@@ -370,7 +370,7 @@ public class PlayerController : MonoBehaviour {
             animatorSword.SetTrigger("hurt");
         }
         // Íæ¼ÒÉËº¦Êý×ÖÎ»ÖÃ²¹³¥
-        Vector2 position = new Vector2(this.transform.position.x, this.transform.position.y + 0.5f);
+        Vector2 position = new Vector2(this.transform.position.x, this.transform.position.y + 1f);
         // ÉËº¦Êý×Ö
         GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
         obj.GetComponent<DamagePopup>().value = hurtBlood;
