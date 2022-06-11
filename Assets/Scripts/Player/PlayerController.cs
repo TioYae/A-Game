@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        inventorySys = GameObject.Find("InventorySys");
         Load();
         atk = atkLevel[level - 1];
         blood = bloodLevel[level - 1];
@@ -95,7 +96,7 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
-        inventorySys = GameObject.Find("InventorySys");
+      
 
 
     }
@@ -512,18 +513,24 @@ public class PlayerController : MonoBehaviour {
         var path = Path.Combine(Application.dataPath, "savedata");
         DirectoryInfo dir = new DirectoryInfo(path);
         if (!dir.Exists) {
+            Debug.Log("!dir.Exists");
             level = 1;
             exp = 0;
             inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
+            InventoryManager.RefreshItem();
+    
             return;
         }
 
         path = Path.Combine(path, "data.json");
         FileInfo fileInfo = new FileInfo(path);
         if (!fileInfo.Exists) {
+            Debug.Log("!fileInfo.Exists");
             level = 1;
             exp = 0;
             inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
+            InventoryManager.RefreshItem();
+           
             return;
         }
 
@@ -532,6 +539,9 @@ public class PlayerController : MonoBehaviour {
         level = saveData.GetLevel();
         exp = saveData.GetExp();
         inventorySys.GetComponent<InventorySys>().SetPackage(saveData.GetPackage());
+        InventoryManager.RefreshItem();
+        
+
     }
 
     // ²¥·ÅBGM
@@ -540,16 +550,5 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    //ÓÃÒ© byÀµ½­
-    public void usePotion() {
-        blood += 10;
-        if (blood >= 100)
-            blood = 100;
-    }
 
-    public void useBigPotion() {
-        blood += 50;
-        if (blood >= 100)
-            blood = 100;
-    }
 }
