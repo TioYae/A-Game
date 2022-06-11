@@ -61,10 +61,19 @@ public class InventorySys : MonoBehaviour
                 if (thisItem.itemHeld >= 1)
                 {
                     thisItem.itemHeld--;
-                    Player.GetComponent<PlayerController>().BloodUp(2000);
+                    Player.GetComponent<PlayerController>().BloodUp(Player.GetComponent<PlayerController>().bloodMax * 0.5f);
                 }
             }
-
+            if (thisItem.itemName == "EnergyPotion")
+            {
+                if (thisItem.itemHeld >= 1)
+                {
+                    thisItem.itemHeld--;
+                    Player.GetComponent<PlayerController>().EnergyUp(Player.GetComponent<PlayerController>().energyMax);
+                    Player.GetComponent<PlayerController>().Hurt(10 , false);
+                }
+            }
+            
 
             InventoryManager.RefreshItem();
         }

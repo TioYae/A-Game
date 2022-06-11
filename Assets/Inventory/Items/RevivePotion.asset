@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: RevivePotion
   itemImage: {fileID: 21300000, guid: 43a65f807e3c96d4aa855e675727592d, type: 3}
-  itemHeld: 1
+  itemHeld: 2
   maxHeld: 2
-  itemInfo: "\u6B7B\u4EA1\u540E\u4F7F\u7528\u5B83\u6765\u590D\u751F"
+  itemInfo: "\u704C\u6CE8\u4E86\u795D\u798F\u7684\u795E\u5947\u9B54\u836F\uFF0C\u6B7B\u4EA1\u540E\u4F7F\u7528\u53EF\u590D\u751F\u3002\n\u8FD9\u795D\u798F\u662F\u6765\u81EA\u54EA\u91CC\u5462\uFF1F"
   equipt: 0

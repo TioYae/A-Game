@@ -19,8 +19,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] List<float> atkLevel; // 每一级的攻击力
     [SerializeField] List<float> bloodLevel; // 每一级的血量上限
     [SerializeField] List<int> expLevel; // 升级需要的经验值
-    private float bloodMax; // 最大血量
-    private float energyMax; // 最大能量
+
+    //因道具使用需要把最大血量/能量改成public
+    public float bloodMax; // 最大血量
+    public float energyMax; // 最大能量
     private float normalSpeed; // 默认速度
     private Vector2 moveDirection; // 角色朝向
     [Space]
@@ -79,8 +81,12 @@ public class PlayerController : MonoBehaviour {
     private Vector2 playReBoundDirect;
     public float reBoundForce;
     public GameObject inventorySys;
-
+    public bool secendaryJump = false;
     public GameObject bag;
+
+    public Inventory Mybag;
+    public Item Shoe;
+    public bool haveShoe;//是否有二段跳的鞋
 
     // Use this for initialization
     void Start() {
@@ -96,9 +102,6 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
-      
-
-
     }
 
     // Update is called once per frame
@@ -159,6 +162,7 @@ public class PlayerController : MonoBehaviour {
         // 设置着地状态
         if (!grounded && groundSensor.State()) {
             grounded = true;
+            secendaryJump = true;
             animator.SetBool("Grounded", grounded);
         }
 
@@ -297,6 +301,23 @@ public class PlayerController : MonoBehaviour {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             groundSensor.Disable(0.2f);
         }
+        //二段跳
+        else if (Input.GetKeyDown("space") && secendaryJump && Mybag.itemList.Contains(Shoe))
+        {
+            this.tag = "Player";
+            attacking = false;
+            animator.SetTrigger("Jump");
+            animatorSword.SetTrigger("cancel");
+            grounded = false;
+            animator.SetBool("Grounded", grounded);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            groundSensor.Disable(0.2f);
+            energy -= 10f;
+            secendaryJump = false;
+        }
+
+
+
         //脚下是可踩下落物，暂命名为“雷鸟”
         else if (Input.GetKeyDown("space") && isNearBird && reBoundCount > 0 && transform.position.y > theBird.transform.position.y) {
             reBoundCount--;
@@ -458,10 +479,18 @@ public class PlayerController : MonoBehaviour {
         if (blood > bloodMax) blood = bloodMax;
     }
 
+    public void EnergyUp(float value)
+    {
+        if (energy > 0 && energy < energyMax) energy += value;
+        if (energy > energyMax) energy = energyMax;
+    }
+
+
     // 复活
     public void Reburn() {
         blood = bloodMax;
         animator.SetTrigger("Reburn");
+        animator.SetBool("IsDeath", false);
         Time.timeScale = 1f;
     }
 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2449285674294742424}
   - component: {fileID: 1237840718}
   - component: {fileID: 7667998713156231601}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -82,6 +82,8 @@ MonoBehaviour:
   - 450
   - 500
   expLevel: 00000000140000004600000096000000fa000000f401000052030000e2040000d0070000b80b0000
+  bloodMax: 0
+  energyMax: 0
   shiftCD: 0
   sword: {fileID: 2449285676005464647}
   popupDamage: {fileID: 3116327700439646727, guid: 2bc4537083fd5da4a8e4f1f20b842894, type: 3}
@@ -106,9 +108,13 @@ MonoBehaviour:
   audioSource: {fileID: 1237840718}
   bgm: {fileID: 7667998713156231601}
   theBird: {fileID: 0}
-  reBoundForce: 0
+  reBoundForce: 1000
   inventorySys: {fileID: 0}
+  secendaryJump: 0
   bag: {fileID: 0}
+  Mybag: {fileID: 11400000, guid: de187948c1478ba4c97b29ae13c21fe2, type: 2}
+  Shoe: {fileID: 11400000, guid: b55ac956a7a2245428122531b22a0e33, type: 2}
+  haveShoe: 0
 --- !u!95 &2449285674294742437
 Animator:
   serializedVersion: 4
@@ -167,8 +173,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -265651565
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -196,7 +202,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: efc4283f04524a346b8546cc7b5a8654, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -324,7 +330,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9faf72e521699c44f8ed4dcfef262512, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8d7b4732d3ea49140aef573808d5ff9e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -421,7 +427,7 @@ GameObject:
   - component: {fileID: 2449285674729278821}
   - component: {fileID: 2449285674729278823}
   - component: {fileID: 2449285674729278820}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GroundSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +489,7 @@ GameObject:
   - component: {fileID: 2449285676005464642}
   - component: {fileID: 2449285676005464641}
   - component: {fileID: 2449285676005464640}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
