@@ -301,21 +301,6 @@ public class PlayerController : MonoBehaviour {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             groundSensor.Disable(0.2f);
         }
-        //二段跳
-        else if (Input.GetKeyDown("space") && secendaryJump && Mybag.itemList.Contains(Shoe))
-        {
-            this.tag = "Player";
-            attacking = false;
-            animator.SetTrigger("Jump");
-            animatorSword.SetTrigger("cancel");
-            grounded = false;
-            animator.SetBool("Grounded", grounded);
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            groundSensor.Disable(0.2f);
-            energy -= 10f;
-            secendaryJump = false;
-        }
-
 
 
         //脚下是可踩下落物，暂命名为“雷鸟”
@@ -337,6 +322,23 @@ public class PlayerController : MonoBehaviour {
             //rb.AddForce(playReBoundDirect * reBoundForce);
             groundSensor.Disable(0.2f);
         }
+
+        //二段跳
+        else if (Input.GetKeyDown("space") && secendaryJump && Mybag.itemList.Contains(Shoe))
+        {
+            this.tag = "Player";
+            attacking = false;
+            animator.SetTrigger("Jump");
+            animatorSword.SetTrigger("cancel");
+            grounded = false;
+            animator.SetBool("Grounded", grounded);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            groundSensor.Disable(0.2f);
+            energy -= 10f;
+            secendaryJump = false;
+        }
+
+
         // 奔跑
         else if (Mathf.Abs(inputX) > Mathf.Epsilon) {
             // 重置站立延迟

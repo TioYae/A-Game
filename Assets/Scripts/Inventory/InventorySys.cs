@@ -70,7 +70,6 @@ public class InventorySys : MonoBehaviour
                 {
                     thisItem.itemHeld--;
                     Player.GetComponent<PlayerController>().EnergyUp(Player.GetComponent<PlayerController>().energyMax);
-                    Player.GetComponent<PlayerController>().Hurt(10 , false);
                 }
             }
             
