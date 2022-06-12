@@ -21,11 +21,6 @@ public class Bullet : MonoBehaviour {
                 PlayerController player = collision.gameObject.GetComponent<PlayerController>();
                 player.tag = "Player";
                 player.Hurt(atk, true);
-                // 玩家伤害数字位置补偿
-                Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 1f);
-                // 伤害数字
-                GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
-                obj.GetComponent<DamagePopup>().value = atk;
             }
             else {
                 // 玩家伤害数字位置补偿
@@ -41,11 +36,6 @@ public class Bullet : MonoBehaviour {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.tag = "Player";
             player.Hurt(atk, true);
-            // 玩家伤害数字位置补偿
-            Vector2 position = new Vector2(collision.transform.position.x, collision.transform.position.y + 1f);
-            // 伤害数字
-            GameObject obj = Instantiate(popupDamage, position, Quaternion.identity);
-            obj.GetComponent<DamagePopup>().value = atk;
 
             // 法术攻击有1/2的概率使玩家进入异常状态
             if (Random.Range(0, 2) == 0) {
