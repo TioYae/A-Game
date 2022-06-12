@@ -1813,6 +1813,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: reviveBtnClicked
       objectReference: {fileID: 0}
+    - target: {fileID: 5132703170136655969, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 757910058}
     - target: {fileID: 5382335818601746497, guid: 1565b27919fafc84fa6f5775ef4a09bf, type: 3}
       propertyPath: m_IsActive
       value: 0

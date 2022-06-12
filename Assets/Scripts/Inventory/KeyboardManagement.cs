@@ -10,6 +10,7 @@ public class KeyboardManagement : MonoBehaviour
     public Inventory mybag;
 
     public GameObject InventorySys;
+    public GameObject CheatBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +31,13 @@ public class KeyboardManagement : MonoBehaviour
             InventorySys.GetComponent<InventorySys>().selectedItem = null;
             InventoryManager.UpdateItemInfo("√Ë ˆ");
             Bag.SetActive(!Bag.activeSelf);
+            ClickCountClear();
         }
 
+    }
+    public void ClickCountClear()
+    {
+        CheatBtn.GetComponent<Cheat>().clickCount = 0;
     }
     public void useItemByKeyboard()
     {

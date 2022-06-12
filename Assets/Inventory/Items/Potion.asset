@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Potion
   itemImage: {fileID: 21300000, guid: c2ac6cc422cf54c4a80d99f883875fa1, type: 3}
-  itemHeld: 0
+  itemHeld: 5
   maxHeld: 5
-  itemInfo: "\u8FD9\u662F\u4E00\u74F6\u836F\u6C34\uFF0C\u53EF\u6062\u590D10\u70B9\u751F\u547D\u503C=
-    ="
+  itemInfo: "\u8FD9\u662F\u4E00\u74F6\u836F\u6C34\uFF0C\u53EF\u6062\u590D\u5C11\u91CF\u70B9\u751F\u547D\u503C=
+    =\n\u6700\u5927\u6301\u6709\u6570\uFF1A5"
   equipt: 0

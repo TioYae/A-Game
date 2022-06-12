@@ -87,7 +87,7 @@ public class Menu : MonoBehaviour {
             fileInfo.Delete();
         Tips.SetActive(true);
         Invoke(nameof(TipsFin), 5f);
-        mybag.itemList.Clear();
+        mybag.itemList = new List<Item>(new Item[18]);
         
     }
 

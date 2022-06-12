@@ -19,8 +19,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] List<float> atkLevel; // 每一级的攻击力
     [SerializeField] List<float> bloodLevel; // 每一级的血量上限
     [SerializeField] List<int> expLevel; // 升级需要的经验值
-    private float bloodMax; // 最大血量
-    private float energyMax; // 最大能量
+
+    //因道具使用需要把最大血量/能量改成public
+    public float bloodMax; // 最大血量
+    public float energyMax; // 最大能量
     private float normalSpeed; // 默认速度
     private Vector2 moveDirection; // 角色朝向
     [Space]
@@ -79,11 +81,17 @@ public class PlayerController : MonoBehaviour {
     private Vector2 playReBoundDirect;
     public float reBoundForce;
     public GameObject inventorySys;
-
+    public bool secendaryJump = false;
     public GameObject bag;
+
+    public Inventory Mybag;
+    public Item Shoe;
+    public bool haveShoe;//是否有二段跳的鞋
 
     // Use this for initialization
     void Start() {
+        inventorySys = GameObject.Find("InventorySys");
+        haveShoe = Mybag.itemList.Contains(Shoe);
         Load();
         atk = atkLevel[level - 1];
         blood = bloodLevel[level - 1];
@@ -95,9 +103,6 @@ public class PlayerController : MonoBehaviour {
         groundSensor = transform.Find("GroundSensor").GetComponent<GroundSensor>();
         normalSpeed = speed;
         sw = sword.GetComponent<Sword>();
-        inventorySys = GameObject.Find("InventorySys");
-
-
     }
 
     // Update is called once per frame
@@ -158,6 +163,7 @@ public class PlayerController : MonoBehaviour {
         // 设置着地状态
         if (!grounded && groundSensor.State()) {
             grounded = true;
+            secendaryJump = true;
             animator.SetBool("Grounded", grounded);
         }
 
@@ -198,135 +204,157 @@ public class PlayerController : MonoBehaviour {
         // 获取Horizontal对应键位(A/D)输入的值
         float inputX = Input.GetAxis("Horizontal");
 
-        // 设置角色朝向
-        if (inputX > 0) {
-            this.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else if (inputX < 0) {
-            this.transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
 
-        moveDirection = new Vector2(transform.localScale.x, 0).normalized;
-        // 按下Shift瞬移
-        if (Input.GetKeyDown(KeyCode.LeftShift) && energy >= 30) {
-            isShiftFinish = false;
-            startShiftTime = shiftCD;
-            isShift = true;
-        }
-        else {
-            startShiftTime -= Time.deltaTime;
-            if (startShiftTime <= 0) {
-                isShiftFinish = true;
+        if (!animator.GetBool("IsDeath")) {
+
+            // 设置角色朝向
+            if (inputX > 0) {
+                this.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
-        }
-        // 正在地面攻击或者正在防御不能移动
-        if ((!attacking && !defining) || (attacking && !grounded))
-            rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
-        else if (defining)
-            rb.velocity = new Vector2(0, rb.velocity.y);
-
-        // 攻击，输入鼠标左键
-        if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
-            if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
-            this.tag = "Player";
-            attacking = true;
-            currentAttack++;
-
-            // 循环
-            if (currentAttack > 3)
-                currentAttack = 1;
-
-            // 攻击间隔太大，切为第一下攻击
-            if (timeSinceAttack > 1.0f)
-                currentAttack = 1;
-
-            switch (currentAttack) {
-                case 1:
-                    // 为剑赋予攻击力
-                    sw.SetAttack(atk);
-
-                    audioSource.clip = attack1;
-                    break;
-                case 2:
-                    // 第2击伤害为1.1倍基础攻击力
-                    sw.SetAttack(atk * 1.1f);
-
-                    audioSource.clip = attack1;
-                    break;
-                case 3:
-                    // 第3击伤害为1.25倍基础攻击力
-                    sw.SetAttack(atk * 1.25f);
-
-                    audioSource.clip = attack2;
-                    break;
-                default:
-                    break;
+            else if (inputX < 0) {
+                this.transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
 
-            // 将第n下攻击的Trigger选中
-            animator.SetTrigger("Attack" + currentAttack);
-            //animatorSword.SetTrigger("Attack" + currentAttack);
+            moveDirection = new Vector2(transform.localScale.x, 0).normalized;
+            // 按下Shift瞬移
+            if (Input.GetKeyDown(KeyCode.LeftShift) && energy >= 30) {
+                isShiftFinish = false;
+                startShiftTime = shiftCD;
+                isShift = true;
+            }
+            else {
+                startShiftTime -= Time.deltaTime;
+                if (startShiftTime <= 0) {
+                    isShiftFinish = true;
+                }
+            }
+            // 正在地面攻击或者正在防御不能移动
+            if ((!attacking && !defining) || (attacking && !grounded))
+                rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
+            else if (defining)
+                rb.velocity = new Vector2(0, rb.velocity.y);
 
-            // 重置攻击间隔
-            timeSinceAttack = 0.0f;
-        }
-        // 防御，输入鼠标右键
-        else if (Input.GetMouseButtonDown(1)) {
-            this.tag = "Shield";
-            attacking = false;
-            defining = true;
-            animator.SetTrigger("Block");
-            animator.SetBool("IdleBlock", true);
-            animatorSword.SetTrigger("cancel");
-        }
-        // 取消防御，松开鼠标右键
-        else if (Input.GetMouseButtonUp(1)) {
-            this.tag = "Player";
-            defining = false;
-            animator.SetBool("IdleBlock", false);
-        }
-        // 跳跃
-        else if (Input.GetKeyDown("space") && grounded) {
-            this.tag = "Player";
-            attacking = false;
-            animator.SetTrigger("Jump");
-            animatorSword.SetTrigger("cancel");
-            grounded = false;
-            animator.SetBool("Grounded", grounded);
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            groundSensor.Disable(0.2f);
-        }
-        //脚下是可踩下落物，暂命名为“雷鸟”
-        else if (Input.GetKeyDown("space") && isNearBird && reBoundCount > 0 && transform.position.y > theBird.transform.position.y) {
-            reBoundCount--;
-            //计算角度
-            playReBoundDirect = theBird.GetComponent<Lightning_Bird>().playerReboundDir;
-            //Debug.Log(-playReBoundDirect);
-            //对雷鸟添加一个力
-            theBird.GetComponent<Rigidbody2D>().AddForce(-playReBoundDirect * reBoundForce);
-            this.tag = "Player";
-            attacking = false;
-            animator.SetTrigger("Jump");
-            animatorSword.SetTrigger("cancel");
-            grounded = false;
-            animator.SetBool("Grounded", grounded);
-            //Todo:给玩家垂直向上力还是斜方向力？
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce * 1.2f);
-            //rb.AddForce(playReBoundDirect * reBoundForce);
-            groundSensor.Disable(0.2f);
-        }
-        // 奔跑
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon) {
-            // 重置站立延迟
-            delayToIdle = 0.05f;
-            animator.SetInteger("AnimState", 1);
-        }
-        // 站立
-        else {
-            // 等待站立延迟
-            delayToIdle -= Time.deltaTime;
-            if (delayToIdle < 0) {
-                animator.SetInteger("AnimState", 0);
+            // 攻击，输入鼠标左键
+            if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f) {
+                if (grounded) rb.velocity = new Vector2(0, rb.velocity.y);
+                this.tag = "Player";
+                attacking = true;
+                currentAttack++;
+
+                // 循环
+                if (currentAttack > 3)
+                    currentAttack = 1;
+
+                // 攻击间隔太大，切为第一下攻击
+                if (timeSinceAttack > 1.0f)
+                    currentAttack = 1;
+
+                switch (currentAttack) {
+                    case 1:
+                        // 为剑赋予攻击力
+                        sw.SetAttack(atk);
+
+                        audioSource.clip = attack1;
+                        break;
+                    case 2:
+                        // 第2击伤害为1.1倍基础攻击力
+                        sw.SetAttack(atk * 1.1f);
+
+                        audioSource.clip = attack1;
+                        break;
+                    case 3:
+                        // 第3击伤害为1.25倍基础攻击力
+                        sw.SetAttack(atk * 1.25f);
+
+                        audioSource.clip = attack2;
+                        break;
+                    default:
+                        break;
+                }
+
+                // 将第n下攻击的Trigger选中
+                animator.SetTrigger("Attack" + currentAttack);
+                //animatorSword.SetTrigger("Attack" + currentAttack);
+
+                // 重置攻击间隔
+                timeSinceAttack = 0.0f;
+            }
+            // 防御，输入鼠标右键
+            else if (Input.GetMouseButtonDown(1)) {
+                this.tag = "Shield";
+                attacking = false;
+                defining = true;
+                animator.SetTrigger("Block");
+                animator.SetBool("IdleBlock", true);
+                animatorSword.SetTrigger("cancel");
+            }
+            // 取消防御，松开鼠标右键
+            else if (Input.GetMouseButtonUp(1)) {
+                this.tag = "Player";
+                defining = false;
+                animator.SetBool("IdleBlock", false);
+            }
+            // 跳跃
+            else if (Input.GetKeyDown("space") && grounded) {
+                this.tag = "Player";
+                attacking = false;
+                animator.SetTrigger("Jump");
+                animatorSword.SetTrigger("cancel");
+                grounded = false;
+                animator.SetBool("Grounded", grounded);
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                groundSensor.Disable(0.2f);
+            }
+
+
+            //脚下是可踩下落物，暂命名为“雷鸟”
+            else if (Input.GetKeyDown("space") && isNearBird && reBoundCount > 0 && transform.position.y > theBird.transform.position.y) {
+                reBoundCount--;
+                //计算角度
+                playReBoundDirect = theBird.GetComponent<Lightning_Bird>().playerReboundDir;
+                //Debug.Log(-playReBoundDirect);
+                //对雷鸟添加一个力
+                theBird.GetComponent<Rigidbody2D>().AddForce(-playReBoundDirect * reBoundForce);
+                this.tag = "Player";
+                attacking = false;
+                animator.SetTrigger("Jump");
+                animatorSword.SetTrigger("cancel");
+                grounded = false;
+                animator.SetBool("Grounded", grounded);
+                //Todo:给玩家垂直向上力还是斜方向力？
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce * 1.2f);
+                //rb.AddForce(playReBoundDirect * reBoundForce);
+                groundSensor.Disable(0.2f);
+            }
+
+            //二段跳
+            else if (Input.GetKeyDown("space") && secendaryJump && !grounded && haveShoe) {
+                this.tag = "Player";
+                attacking = false;
+                animator.SetTrigger("Jump");
+                animatorSword.SetTrigger("cancel");
+                grounded = false;
+                animator.SetBool("Grounded", grounded);
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                groundSensor.Disable(0.2f);
+                energy -= 10f;
+                secendaryJump = false;
+            }
+
+
+            // 奔跑
+            else if (Mathf.Abs(inputX) > Mathf.Epsilon) {
+                // 重置站立延迟
+                delayToIdle = 0.05f;
+                animator.SetInteger("AnimState", 1);
+            }
+            // 站立
+            else {
+                // 等待站立延迟
+                delayToIdle -= Time.deltaTime;
+                if (delayToIdle < 0) {
+                    animator.SetInteger("AnimState", 0);
+                }
             }
         }
     }
@@ -376,6 +404,7 @@ public class PlayerController : MonoBehaviour {
         obj.GetComponent<DamagePopup>().value = hurtBlood;
         if (hurtBlood >= blood) {
             blood = 0;
+            rb.velocity = new Vector2(0, rb.velocity.y);
             // 切换死亡动画
             animator.SetBool("IsDeath", true);
             animator.SetTrigger("Death");
@@ -443,6 +472,7 @@ public class PlayerController : MonoBehaviour {
     public void DeathOrReburn() {
         // 取消Death的trigger
         animator.SetTrigger("Useless");
+
         if (inventorySys.GetComponent<InventorySys>().findRevivePotion()) {
             reburnUI.SetActive(true);
         }
@@ -457,10 +487,17 @@ public class PlayerController : MonoBehaviour {
         if (blood > bloodMax) blood = bloodMax;
     }
 
+    public void EnergyUp(float value) {
+        if (energy > 0 && energy < energyMax) energy += value;
+        if (energy > energyMax) energy = energyMax;
+    }
+
+
     // 复活
     public void Reburn() {
         blood = bloodMax;
         animator.SetTrigger("Reburn");
+        animator.SetBool("IsDeath", false);
         Time.timeScale = 1f;
     }
 
@@ -487,7 +524,9 @@ public class PlayerController : MonoBehaviour {
 
     // 存档
     public void Save() {
-        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1, inventorySys.GetComponent<InventorySys>().GetPackages());
+        inventorySys.GetComponent<InventorySys>().GetAmountofAllItems();
+        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1,
+            inventorySys.GetComponent<InventorySys>().GetPackages(), inventorySys.GetComponent<InventorySys>().GetAmount());
 
         var path = Path.Combine(Application.dataPath, "Savedata");
         DirectoryInfo dir = new DirectoryInfo(path);
@@ -512,18 +551,26 @@ public class PlayerController : MonoBehaviour {
         var path = Path.Combine(Application.dataPath, "savedata");
         DirectoryInfo dir = new DirectoryInfo(path);
         if (!dir.Exists) {
+            Debug.Log("!dir.Exists");
             level = 1;
             exp = 0;
             inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
+            inventorySys.GetComponent<InventorySys>().SetAmount(new List<int>(new int[18]));
+            InventoryManager.RefreshItem();
+
             return;
         }
 
         path = Path.Combine(path, "data.json");
         FileInfo fileInfo = new FileInfo(path);
         if (!fileInfo.Exists) {
+            Debug.Log("!fileInfo.Exists");
             level = 1;
             exp = 0;
             inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
+            inventorySys.GetComponent<InventorySys>().SetAmount(new List<int>(new int[18]));
+            InventoryManager.RefreshItem();
+
             return;
         }
 
@@ -532,6 +579,9 @@ public class PlayerController : MonoBehaviour {
         level = saveData.GetLevel();
         exp = saveData.GetExp();
         inventorySys.GetComponent<InventorySys>().SetPackage(saveData.GetPackage());
+        inventorySys.GetComponent<InventorySys>().SetAmountofAllItems(saveData.GetPackage(), saveData.GetItemsAmount());
+        InventoryManager.RefreshItem();
+
     }
 
     // 播放BGM
@@ -540,16 +590,5 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    //用药 by赖江
-    public void usePotion() {
-        blood += 10;
-        if (blood >= 100)
-            blood = 100;
-    }
 
-    public void useBigPotion() {
-        blood += 50;
-        if (blood >= 100)
-            blood = 100;
-    }
 }

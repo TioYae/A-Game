@@ -8,6 +8,12 @@ public class InventorySys : MonoBehaviour
     public GameObject Player;
     public Inventory myBag;
     public Item RevivePotion;
+    public AudioClip PotionAudio;
+    public AudioClip ReviveAudio;
+    public AudioClip EnergyAudio;
+    public AudioSource audioSource;
+    public List<int> ItemsAmount = new List<int>(new int[18]);
+
 
 
     public void useBtnClicked()
@@ -15,6 +21,23 @@ public class InventorySys : MonoBehaviour
         useItem(selectedItem);
     }
 
+    public void GetAmountofAllItems()
+    {
+        for (int i = 0; i < myBag.itemList.Count; i++)
+        {
+            if (myBag.itemList[i] != null)
+                ItemsAmount[i] = myBag.itemList[i].itemHeld;
+        }
+    }
+
+    public void SetAmountofAllItems(List<Item> packages, List<int> ItemsAmount)
+    {
+          for(int i = 0 ; i < packages.Count;i++ )
+        {
+            if (packages[i]!=null)
+            packages[i].itemHeld = ItemsAmount[i];
+        }
+    }
     public void throwBtnClicked()
     {
         throwItem(selectedItem);
@@ -54,6 +77,8 @@ public class InventorySys : MonoBehaviour
                 {
                     thisItem.itemHeld--;
                     Player.GetComponent<PlayerController>().BloodUp(10f);
+                   // audioSource.clip = PotionAudio;
+                 //   audioSource.Play();
                 }
             }
             if (thisItem.itemName == "BigPotion")
@@ -61,10 +86,22 @@ public class InventorySys : MonoBehaviour
                 if (thisItem.itemHeld >= 1)
                 {
                     thisItem.itemHeld--;
-                    Player.GetComponent<PlayerController>().BloodUp(2000);
+                    Player.GetComponent<PlayerController>().BloodUp(Player.GetComponent<PlayerController>().bloodMax * 0.5f);
+                  //  audioSource.clip = PotionAudio;
+                  //  audioSource.Play();
                 }
             }
-
+            if (thisItem.itemName == "EnergyPotion")
+            {
+                if (thisItem.itemHeld >= 1)
+                {
+                    thisItem.itemHeld--;
+                    Player.GetComponent<PlayerController>().EnergyUp(Player.GetComponent<PlayerController>().energyMax);
+               //     audioSource.clip = EnergyAudio;
+                //    audioSource.Play();
+                }
+            }
+            
 
             InventoryManager.RefreshItem();
         }
@@ -77,7 +114,9 @@ public class InventorySys : MonoBehaviour
         InventoryManager.RefreshItem();
         Player.GetComponent<PlayerController>().BloodUp(20f);
         Player.GetComponent<PlayerController>().Reburn();
-    
+        audioSource.clip = ReviveAudio;
+        audioSource.Play();
+
         // Debug.Log("不能直接用复活药");
 
     }
@@ -89,8 +128,12 @@ public class InventorySys : MonoBehaviour
         if (thisItem != null)
         {
             thisItem.itemHeld--;
+            if (thisItem.itemName == "Shoe")
+                Player.GetComponent<PlayerController>().haveShoe = false;
             InventoryManager.RefreshItem();
         }
+
+
     }
 
 
@@ -100,6 +143,16 @@ public class InventorySys : MonoBehaviour
 
     public List<Item> GetPackages() {
         return myBag.GetPackage();
+    }
+
+    public void SetAmount(List<int> ItemsAmount)
+    {
+        this.ItemsAmount = ItemsAmount;
+    }
+
+    public List<int> GetAmount()
+    {
+        return ItemsAmount;
     }
 
 

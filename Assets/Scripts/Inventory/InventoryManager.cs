@@ -60,7 +60,7 @@ public class InventoryManager : MonoBehaviour {
         }
 
         //清除物品栏中物品
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < instance.frontGrid.transform.childCount; i++) {
             if (instance.frontGrid.transform.childCount == 0) { break; }
             Destroy(instance.frontGrid.transform.GetChild(i).gameObject);
             instance.Frontslots.Clear();
