@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         inventorySys = GameObject.Find("InventorySys");
+        haveShoe = Mybag.itemList.Contains(Shoe);
         Load();
         atk = atkLevel[level - 1];
         blood = bloodLevel[level - 1];
@@ -203,6 +204,10 @@ public class PlayerController : MonoBehaviour {
         // 获取Horizontal对应键位(A/D)输入的值
         float inputX = Input.GetAxis("Horizontal");
 
+
+        if (!animator.GetBool("IsDeath"))
+        { 
+
         // 设置角色朝向
         if (inputX > 0) {
             this.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
@@ -291,7 +296,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("IdleBlock", false);
         }
         // 跳跃
-        else if (Input.GetKeyDown("space") && grounded) {
+        else if (Input.GetKeyDown("space") && grounded ) {
             this.tag = "Player";
             attacking = false;
             animator.SetTrigger("Jump");
@@ -324,7 +329,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         //二段跳
-        else if (Input.GetKeyDown("space") && secendaryJump && Mybag.itemList.Contains(Shoe))
+        else if (Input.GetKeyDown("space") && secendaryJump &&  !grounded && haveShoe )
         {
             this.tag = "Player";
             attacking = false;
@@ -352,6 +357,7 @@ public class PlayerController : MonoBehaviour {
             if (delayToIdle < 0) {
                 animator.SetInteger("AnimState", 0);
             }
+        }
         }
     }
 
@@ -467,6 +473,7 @@ public class PlayerController : MonoBehaviour {
     public void DeathOrReburn() {
         // 取消Death的trigger
         animator.SetTrigger("Useless");
+
         if (inventorySys.GetComponent<InventorySys>().findRevivePotion()) {
             reburnUI.SetActive(true);
         }
@@ -519,7 +526,9 @@ public class PlayerController : MonoBehaviour {
 
     // 存档
     public void Save() {
-        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1, inventorySys.GetComponent<InventorySys>().GetPackages());
+        inventorySys.GetComponent<InventorySys>().GetAmountofAllItems();
+        SaveData saveData = new SaveData(exp, level, SceneManager.GetActiveScene().buildIndex + 1,
+            inventorySys.GetComponent<InventorySys>().GetPackages(), inventorySys.GetComponent<InventorySys>().GetAmount());
 
         var path = Path.Combine(Application.dataPath, "Savedata");
         DirectoryInfo dir = new DirectoryInfo(path);
@@ -548,6 +557,7 @@ public class PlayerController : MonoBehaviour {
             level = 1;
             exp = 0;
             inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
+            inventorySys.GetComponent<InventorySys>().SetAmount(new List<int>(new int[18]));
             InventoryManager.RefreshItem();
     
             return;
@@ -560,6 +570,7 @@ public class PlayerController : MonoBehaviour {
             level = 1;
             exp = 0;
             inventorySys.GetComponent<InventorySys>().SetPackage(new List<Item>(new Item[18]));
+            inventorySys.GetComponent<InventorySys>().SetAmount(new List<int>(new int[18]));
             InventoryManager.RefreshItem();
            
             return;
@@ -570,8 +581,8 @@ public class PlayerController : MonoBehaviour {
         level = saveData.GetLevel();
         exp = saveData.GetExp();
         inventorySys.GetComponent<InventorySys>().SetPackage(saveData.GetPackage());
+        inventorySys.GetComponent<InventorySys>().SetAmountofAllItems(saveData.GetPackage(), saveData.GetAmount());
         InventoryManager.RefreshItem();
-        
 
     }
 

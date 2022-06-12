@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: EnergyPotion
   itemImage: {fileID: 21300000, guid: 43a65f807e3c96d4aa855e675727592d, type: 3}
-  itemHeld: 5
+  itemHeld: 1
   maxHeld: 5
-  itemInfo: "\u4E00\u5757\u7EFF\u8272\u7684\u7CD6\u679C\uFF0C\u53EF\u5B8C\u5168\u6062\u590D\u4F53\u529B\u503C\u3002"
+  itemInfo: "\u7EFF\u8272\u7684\u80F6\u56CA\u72B6\u7CD6\u679C\uFF0C\u53EF\u5B8C\u5168\u6062\u590D\u4F53\u529B\u503C\u3002\n\u6700\u5927\u6301\u6709\u6570\uFF1A5"
   equipt: 0
