@@ -555,11 +555,11 @@ PrefabInstance:
       objectReference: {fileID: 551984604}
     - target: {fileID: 1303161281973233689, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_SortingLayer
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233689, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_SortingLayerID
-      value: 0
+      value: -265651565
       objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233691, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_Name
@@ -872,6 +872,14 @@ PrefabInstance:
       propertyPath: enemyStatus
       value: 
       objectReference: {fileID: 551984605}
+    - target: {fileID: 1303161281973233689, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1303161281973233689, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -265651565
+      objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233691, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_Name
       value: Enemy_Wand
@@ -993,7 +1001,7 @@ PrefabInstance:
     - target: {fileID: 7485205383028220248, guid: f7b4423a89e7ad8439265af2011a96c9, type: 3}
       propertyPath: DialogUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1539197966}
     - target: {fileID: 7485205383028220248, guid: f7b4423a89e7ad8439265af2011a96c9, type: 3}
       propertyPath: boss.Array.size
       value: 1
@@ -44284,11 +44292,11 @@ PrefabInstance:
       objectReference: {fileID: 551984606}
     - target: {fileID: 1303161281973233689, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_SortingLayer
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233689, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_SortingLayerID
-      value: 0
+      value: -265651565
       objectReference: {fileID: 0}
     - target: {fileID: 1303161281973233691, guid: 249854afb96d25f4ab3fda65cf09be9f, type: 3}
       propertyPath: m_Name
