@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         inventorySys = GameObject.Find("InventorySys");
-        haveShoe = Mybag.itemList.Contains(Shoe);
         Load();
+        haveShoe = Mybag.itemList.Contains(Shoe);
         atk = atkLevel[level - 1];
         blood = bloodLevel[level - 1];
         bloodMax = blood;
